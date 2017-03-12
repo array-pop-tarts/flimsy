@@ -1,0 +1,294 @@
+@import "bootstrap/bootstrap";
+
+html {
+    font-size: 14px;
+}
+
+body {
+    background: $neutral;
+}
+
+@include media-breakpoint-up(sm) {
+    html {
+        font-size: 16px;
+    }
+}
+@include media-breakpoint-only(md) {
+    #mainNavigation {
+        .nav-link {
+            font-size: small;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+
+}
+
+header.site-header {
+    background: $header-background;
+
+    .navbar {
+        display: block;
+        padding: 0;
+
+    }
+    nav[class*="navbar-toggleable-"] {
+        & > .container {
+            display: block;
+        }
+    }
+
+    .logo-col {
+        padding-top: $grid-gutter-width-base / 2;
+    }
+
+    .account-col {
+        padding: 6px 0 8px;
+        
+        a {
+            color: $gray-dark;
+        }
+
+        .navbar-toggler {
+            font-size: inherit;
+            padding: inherit;
+        }
+    }
+
+    .search-col {
+
+         .form-inline {
+            .input-group {
+                width: 100%;
+                border: 1px solid $gray;
+
+                .form-control {
+                    border: none;
+                }
+
+                .input-group-btn {
+                    button {
+                        border-left: 1px solid $gray;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .navbar-collapse {
+        background: $brand-info-dark;
+    }
+
+    .navbar-nav {
+
+        border-radius: 0;
+        padding: 0;
+        justify-content: center;
+
+        .nav-item {
+
+            & + .nav-item {
+                margin-left: 0;
+            }
+
+            a {
+                color: $gray-lighter;
+                font-family: $font-family-fancy;
+                font-size: large;
+                padding: 0.75rem 1.5rem;
+
+                &:active,
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                    color: white;
+                    background: $brand-info;
+                }
+            }
+        }
+    }
+}
+
+.main-container {
+    background: white;
+    border-right: 1px solid $gray-dark;
+    border-left: 1px solid $gray-dark;
+    padding: 50px;
+}
+
+footer {
+    background: $gray-light;
+
+    a {
+        color: white;
+        font-size: small;
+
+        &:active,
+        &:focus,
+        &:hover {
+            text-decoration: none;
+            color: $brand-success;
+        }
+    }
+}
+
+/* TYPE */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-fancy;
+}
+
+h1 {
+    font-size: $font-size-h3;
+}
+h2 {
+    font-size: $font-size-h4;
+}
+h3 {
+    font-size: $font-size-h5;
+}
+h4 {
+    font-size: $font-size-h6;
+}
+
+a {
+    color: $brand-info;
+    text-decoration: none;
+
+    &:active,
+    &:focus,
+    &:hover {
+        text-decoration: none;
+        color: lighten($brand-info, 20%);
+    }
+}
+
+/* FORMS */
+
+legend {
+    font-family: $font-family-fancy;
+}
+
+.required {
+    &::before {
+        content: '* ';
+        color: $brand-danger;
+    }
+}
+
+input[type=number] {
+    padding: 0;
+}
+
+/* BUTTONS */
+
+.btn,
+button {
+    cursor: pointer;
+}
+
+/* LISTS */
+
+ul {
+    list-style: none;
+}
+
+.list-group-item {
+    padding: 0.25rem 0.75rem;
+}
+
+/* CARDS */
+
+.masonry {
+    column-count: 1;
+    column-gap: 0.5em;
+
+    .brick {
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+.card.film-card {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* FILM CARDS */
+
+.film-form-placeholder {
+    height: 200px;
+    background: $teal;
+    cursor: pointer;
+    text-align: center;
+}
+
+.card-header {
+  background-color: $gray-dark;
+  color: $gray-lighter;
+}
+
+.rating {
+    .btn {
+        color: $orange;
+        padding: 0.1rem 0.25rem;
+        line-height: normal;
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.unrated {
+    .btn {
+        color: $gray-light;
+    }
+}
+
+.film-screenings {
+  background-color: $warning;
+
+  li {
+    background-color: transparent;
+  }
+}
+
+.film-media {
+  background-color: $purple;
+}
+
+.available-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.screening-friends {
+  font-size: smaller;
+  padding-left: 1rem;
+}
+
+/* RESPONSIVE MASONRY */
+
+@media only screen and (min-width: 576px)  {
+    .masonry {
+        column-count: 2;
+        column-gap: 1em;
+    }
+}
+@media only screen and (min-width: 768px)  {
+    .masonry {
+        column-count: 3;
+    }
+}
+@media only screen and (min-width: 992px)  {
+    .masonry {
+        column-count: 4;
+        column-gap: 1.5em;
+    }
+}
