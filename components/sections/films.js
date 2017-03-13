@@ -19,6 +19,7 @@ class Films extends React.Component {
             venues: {},
             users: {},
             media: {},
+            movies: [{}],
 
             showFilmForm: false,
 
@@ -115,6 +116,12 @@ class Films extends React.Component {
     }
 
     componentDidMount() {
+
+        fetch('/api/films')
+            .then(res => res.json())
+            .then(json => this.setState({movies: json}));
+
+
         let fireFilms = firebase.database().ref('films');
 
         fireFilms.on('child_added', (snapshot) => {
