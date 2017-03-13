@@ -9,7 +9,11 @@ var FilmSchema = new mongoose.Schema({
     title: String,
     translation: String,
     released: Number,
-    rating: Number
+    rating: Number,
+    media: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Medium'
+    }
 });
 
 module.exports = mongoose.model('Film', FilmSchema);

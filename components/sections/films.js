@@ -19,7 +19,9 @@ class Films extends React.Component {
             venues: {},
             users: {},
             media: {},
+
             movies: [{}],
+            videos: {},
 
             showFilmForm: false,
 
@@ -38,6 +40,7 @@ class Films extends React.Component {
     }
 
     render() {
+
         if (this.state.loaded_screenings
             && this.state.loaded_films
             && this.state.loaded_venues

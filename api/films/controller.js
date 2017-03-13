@@ -7,6 +7,7 @@ var Film = require('./model');
 
 exports.index = function (req, res) {
     Film.find()
+        .populate('media').exec()
         .then(films => res.send(films))
         .catch(err => {
             res.status(404);
