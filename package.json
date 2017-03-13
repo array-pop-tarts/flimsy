@@ -1,5 +1,5 @@
 {
-  "name": "flim-react",
+  "name": "flimsy",
   "version": "1.0.0",
   "description": "Sharing film screenings and media, built using ReactJS.",
   "main": "index.html",
@@ -8,6 +8,7 @@
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "body-parser": "^1.17.1",
     "css-loader": "^0.26.1",
     "express": "^4.15.2",
     "file-loader": "^0.9.0",
@@ -22,6 +23,7 @@
     "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
+    "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^1.16.2"
   },
   "devDependencies": {},
@@ -30,13 +32,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/array-pop-tarts/flim.git"
+    "url": "git+https://github.com/array-pop-tarts/flimsy.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/array-pop-tarts/flim/issues"
+    "url": "https://github.com/array-pop-tarts/flimsy/issues"
   },
-  "homepage": "https://github.com/array-pop-tarts/flim#readme"
+  "homepage": "https://github.com/array-pop-tarts/flimsy#readme"
 }
