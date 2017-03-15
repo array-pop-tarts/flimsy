@@ -15,8 +15,8 @@ class AvailableMedia extends React.Component
         return (
             <span>
                 {
-                    this.props.mediaInfo.map((medium) => {
-                        return <Medium medium={ medium } key={ medium.key }/>
+                    this.props.mediaInfo.map((medium, i) => {
+                        return <Medium medium={ medium } key={ i }/>
                     })
                 }
             </span>

@@ -137,10 +137,10 @@ class Film extends React.Component {
     }
 
     renderMedia() {
-        if (this.props.mediaInfo.length) {
+        if (this.props.film.media.length) {
             return (
                 <div className="available-media">
-                    <AvailableMedia mediaInfo={ this.props.mediaInfo } />
+                    <AvailableMedia mediaInfo={ this.props.film.media } />
                     <AddMediaButton
                         expanded={false}
                         onToggleForm={ (e) => this.toggleMediaForm }

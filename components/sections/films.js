@@ -62,7 +62,6 @@ class Films extends React.Component {
                                   key={ i }
                                   i={ i }
                                   screeningsInfo={ this.getScreenings(film) }
-                                  mediaInfo={ this.getMedia(film) }
                                   venuesList={ this.state.venues }
                             />
                         );
@@ -106,15 +105,6 @@ class Films extends React.Component {
             let user = this.state.users[id];
             user.key = id;
             return user;
-        });
-    }
-
-    getMedia(film) {
-        if (!film.media) { return []; }
-        return Object.keys(film.media).map(id => {
-            let medium = this.state.media[id];
-            medium.key = id;
-            return medium;
         });
     }
 
