@@ -6,6 +6,10 @@
 var mongoose = require('mongoose');
 
 var MediumSchema = require('../media/model');
+var ScreeningSchema = require('../screenings/model');
+
+var currentDate = new Date();
+var currentYear = currentDate.getFullYear();
 
 var FilmSchema = new mongoose.Schema({
     title: {
@@ -13,7 +17,12 @@ var FilmSchema = new mongoose.Schema({
         required: true
     },
     translation: String,
-    released: Number,
+    released: {
+        type: Number,
+        required: true,
+        min: 1888,
+        max: currentYear
+    },
     rating: {
         type: Number,
         min: 1,
@@ -21,6 +30,10 @@ var FilmSchema = new mongoose.Schema({
     },
     media: {
         type: [MediumSchema],
+        default: []
+    },
+    screenings: {
+        type: [ScreeningSchema],
         default: []
     }
 });

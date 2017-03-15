@@ -5,8 +5,18 @@
  */
 var mongoose = require('mongoose');
 
+var Venue = require('../venues/model');
+
 var ScreeningSchema = new mongoose.Schema({
-    date: Number
+    date: Number,
+    venue: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Venue'
+    },
+    users: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User'
+    }
 });
 
-module.exports = mongoose.model('Screening', ScreeningSchema);
+module.exports = ScreeningSchema;

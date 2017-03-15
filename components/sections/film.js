@@ -48,7 +48,6 @@ class Film extends React.Component {
         let film = this.props.film;
         let ratedClass = (film.rating) ? "" : "unrated";
 
-
         return (
             <div className="brick">
                 <div className="card film-card">
@@ -65,7 +64,10 @@ class Film extends React.Component {
                     </div>
                     <div className="film-screenings">
                         { this.renderScreenings() }
-                        { this.state.showForms.Screening ? <ScreeningForm filmId={this.props.film.id} venuesList={ this.props.venuesList } /> : null }
+                        { this.state.showForms.Screening ?
+                            <ScreeningForm filmId={this.props.film.id}
+                                           venuesList={ this.props.venuesList } /> :
+                            null }
                     </div>
                 </div>
             </div>
@@ -73,17 +75,21 @@ class Film extends React.Component {
     }
 
     renderFilm() {
+/*
         if (this.props.i == 0) {
             return <FilmForm />
         }
         else if (this.props.i >= 1) {
+*/
             return (
                 <FilmInfo title={this.props.film.title}
                           translation={this.props.film.translation}
                           released={this.props.film.released}
                 />
             );
+/*
         }
+*/
     }
 
     renderRating(rating) {

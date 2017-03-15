@@ -22,8 +22,6 @@ app.use(bodyParser.json());
 app.use('/api/films', require('./api/films'));
 app.use('/api/users', require('./api/users'));
 app.use('/api/venues', require('./api/venues'));
-app.use('/api/screenings', require('./api/screenings'));
-app.use('/api/media', require('./api/media'));
 
 app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 

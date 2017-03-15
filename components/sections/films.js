@@ -122,9 +122,13 @@ class Films extends React.Component {
 
         fetch('/api/films')
             .then(res => res.json())
-            .then(json => this.setState({movies: json}));
+            .then(json => this.setState({
+                films: json,
+                loaded_films: true
+            }));
 
 
+/*
         let fireFilms = firebase.database().ref('films');
 
         fireFilms.on('child_added', (snapshot) => {
@@ -136,7 +140,9 @@ class Films extends React.Component {
                 loaded_films: true
             });
         });
+*/
 
+ /*
         fireFilms.on('child_changed', (snapshot) => {
             const films = this.state.films.map(film => {
                 if (film.id !== snapshot.key) {
@@ -151,6 +157,7 @@ class Films extends React.Component {
 
             this.setState({films: films});
         });
+*/
 
         let fireScreenings = firebase.database().ref('screenings');
         fireScreenings.orderByChild("date").on('value', snapshot => {
