@@ -5,14 +5,23 @@
  */
 var mongoose = require('mongoose');
 
+var MediumSchema = require('../media/model');
+
 var FilmSchema = new mongoose.Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true
+    },
     translation: String,
     released: Number,
-    rating: Number,
+    rating: {
+        type: Number,
+        min: 1,
+        max: 10
+    },
     media: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Medium'
+        type: [MediumSchema],
+        default: []
     }
 });
 

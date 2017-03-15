@@ -6,8 +6,11 @@
 var mongoose = require('mongoose');
 
 var MediumSchema = new mongoose.Schema({
-    type: String,
+    type: {
+        type: String,
+        enum: ["BluRay", "DVD"]
+    },
     acquired: Number
 });
 
-module.exports = mongoose.model('Medium', MediumSchema);
+module.exports = MediumSchema;
