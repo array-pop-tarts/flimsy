@@ -31,7 +31,6 @@ class Film extends React.Component {
             rating: null
         };
 
-        this.renderFilm = this.renderFilm.bind(this);
         this.renderRating = this.renderRating.bind(this);
         this.renderScreenings = this.renderScreenings.bind(this);
         this.renderMedia = this.renderMedia.bind(this);
@@ -52,7 +51,10 @@ class Film extends React.Component {
             <div className="brick">
                 <div className="card film-card">
                     <div className="card-header">
-                        { this.renderFilm() }
+                        <FilmInfo title={this.props.film.title}
+                                  translation={this.props.film.translation}
+                                  released={this.props.film.released}
+                        />
                         <div className={ "rating h6 " + ratedClass }>
                             { this.renderRating(film.rating) }
                         </div>
@@ -72,24 +74,6 @@ class Film extends React.Component {
                 </div>
             </div>
         );
-    }
-
-    renderFilm() {
-/*
-        if (this.props.i == 0) {
-            return <FilmForm />
-        }
-        else if (this.props.i >= 1) {
-*/
-            return (
-                <FilmInfo title={this.props.film.title}
-                          translation={this.props.film.translation}
-                          released={this.props.film.released}
-                />
-            );
-/*
-        }
-*/
     }
 
     renderRating(rating) {
@@ -115,10 +99,10 @@ class Film extends React.Component {
     }
 
     renderScreenings() {
-        if (this.props.screeningsInfo.length) {
+        if (this.props.film.screenings.length) {
             return (
                 <div>
-                    <Screenings screeningsInfo={ this.props.screeningsInfo } />
+                    <Screenings screeningsInfo={ this.props.film.screenings } />
                     <AddScreeningButton
                         expanded={true}
                         onToggleForm={ (e) => this.toggleScreeningForm }

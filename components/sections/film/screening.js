@@ -22,10 +22,10 @@ class Screening extends React.Component {
         return (
             <li className="list-group-item  justify-content-between">
                 <div>
-                    { this.renderDate() } @ <Venue venue={this.props.screening.venueInfo } />
+                    { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
                 </div>
                 <div className="screening-friends">
-                    { this.renderUsers(this.props.screening.usersInfo)}
+                    { this.renderUsers(this.props.screening.users)}
                 </div>
             </li>
         );

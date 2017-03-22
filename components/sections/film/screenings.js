@@ -12,8 +12,8 @@ class Screenings extends React.Component {
         return (
             <ul className="list-group list-group-flush">
                 {
-                   this.props.screeningsInfo.map((screening) => {
-                        return <Screening screening={ screening } key={ screening.key }/>
+                   this.props.screeningsInfo.map((screening, i) => {
+                        return <Screening screening={ screening } key={ i }/>
                     })
                 }
             </ul>
