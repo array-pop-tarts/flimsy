@@ -5,8 +5,16 @@
  */
 var mongoose = require('mongoose');
 
-var MediumSchema = require('../media/model');
-var ScreeningSchema = require('../screenings/model');
+//var MediumSchema = require('../media/model');
+var MediumSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ["BluRay", "DVD"]
+    },
+    acquired: Number
+});
+
+var Screening = require('../screenings/model');
 
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();
@@ -32,10 +40,11 @@ var FilmSchema = new mongoose.Schema({
         type: [MediumSchema],
         default: []
     },
-    screenings: {
-        type: [ScreeningSchema],
+    screenings: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Screening',
         default: []
-    }
+    }]
 });
 
 module.exports = mongoose.model('Film', FilmSchema);

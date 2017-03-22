@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 
 var Venue = require('../venues/model');
+var User = require('../users/model');
 
 var ScreeningSchema = new mongoose.Schema({
     date: Number,
@@ -19,4 +20,4 @@ var ScreeningSchema = new mongoose.Schema({
     }
 });
 
-module.exports = ScreeningSchema;
+module.exports = mongoose.model("Screening", ScreeningSchema);

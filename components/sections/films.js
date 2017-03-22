@@ -40,6 +40,7 @@ class Films extends React.Component {
     }
 
     render() {
+        console.log(this.state.films);
 
         if (this.state.loaded_screenings
             && this.state.loaded_films
