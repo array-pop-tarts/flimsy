@@ -24,7 +24,7 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    Film.findById(req.param.id)
+    Film.findById(req.params.id)
         .then((film) => {
 
         })
@@ -35,7 +35,7 @@ exports.update = function (req, res) {
 };
 
 exports.createScreening = function (req, res) {
-    Film.findById(req.param.id)
+    Film.findById(req.params.id)
         .then((film) => {
             film.screenings.push({
                 date: req.body.date,
@@ -51,5 +51,8 @@ exports.createScreening = function (req, res) {
                     res.send(err);
                 });
         })
-        .catch(() => res.send(404));
+        .catch(() => {
+            res.status(404);
+            res.send("Film not found")
+        });
 };

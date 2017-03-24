@@ -62,12 +62,12 @@ class Film extends React.Component {
 
                     <div className="card-block film-media">
                         { this.renderMedia() }
-                        { this.state.showForms.Media ? <MediaForm filmId={this.props.film.id} /> : null }
+                        { this.state.showForms.Media ? <MediaForm filmId={this.props.film._id} /> : null }
                     </div>
                     <div className="film-screenings">
                         { this.renderScreenings() }
                         { this.state.showForms.Screening ?
-                            <ScreeningForm filmId={this.props.film.id}
+                            <ScreeningForm filmId={this.props.film._id}
                                            users={ this.props.users }
                                            venues={ this.props.venues } /> :
                             null }

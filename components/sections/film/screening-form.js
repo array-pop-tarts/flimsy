@@ -213,7 +213,7 @@ class ScreeningForm extends React.Component {
 
         fetch(`/api/films/${this.props.filmId}/screening`, {
             method: 'POST',
-            body: screening
+            body: JSON.stringify(screening)
         })
             .then(res => res.json())
             .then(json => this.setState({
