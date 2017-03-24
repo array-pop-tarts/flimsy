@@ -29,9 +29,6 @@ class ScreeningForm extends React.Component {
                 venue: false,
                 users: false
             },
-
-            venuesList: [],
-            usersList: []
         };
 
         this.toggleVenuesHelper = this.toggleVenuesHelper.bind(this);
@@ -107,7 +104,7 @@ class ScreeningForm extends React.Component {
         return (
             <div className="list-group">
                 {
-                    this.state.venuesList.map((venue, i) => {
+                    this.props.venues.map((venue, i) => {
                         return (
                             <button
                                className="list-group-item list-group-item-action"
@@ -130,7 +127,7 @@ class ScreeningForm extends React.Component {
     selectVenue(venue, e) {
         e.preventDefault();
         let selectedVenue = {
-            id: venue.id,
+            id: venue._id,
             name: venue.name
         };
         this.setState({
@@ -156,7 +153,7 @@ class ScreeningForm extends React.Component {
         return (
             <div className="list-group">
                 {
-                    this.state.usersList.map((user, i) => {
+                    this.props.users.map((user, i) => {
                         return (
                             <button
                                 className="list-group-item list-group-item-action"
@@ -184,7 +181,7 @@ class ScreeningForm extends React.Component {
 
         let selectedUsers = this.state.selectedUsers.users || [];
         let selectedUser = {
-            id: user.id,
+            id: user._id,
             name: user.name
         };
         selectedUsers.push(selectedUser);
@@ -202,8 +199,6 @@ class ScreeningForm extends React.Component {
     onSaveScreening(e) {
         e.preventDefault();
 
-        const db = firebase.database();
-
         let selectedDate = (this.state.selectedDate);
         let dateTimestamp = selectedDate._d.getTime();
 
@@ -220,6 +215,8 @@ class ScreeningForm extends React.Component {
 
         let fullDate = new Date(dateTimestamp);
         let newScreenedYear = fullDate.getFullYear();
+
+        const db = firebase.database();
 
         let savedScreenedYearRef = db.ref('/films/' + this.props.filmId + '/screened');
         let savedScreenedYear = null;
@@ -242,34 +239,6 @@ class ScreeningForm extends React.Component {
         this.setState({
             selectedVenue: {},
             selectedUsers: {}
-        });
-    }
-
-    componentDidMount() {
-        let db = firebase.database();
-
-        let fireVenues = db.ref('venues');
-        fireVenues.orderByChild('name').on('child_added', snapshot => {
-            this.setState(currentState => {
-                const newState = Object.assign({}, currentState);
-                newState.venuesList = newState.venuesList.concat({
-                    id: snapshot.key,
-                    name: snapshot.val().name
-                });
-                return newState;
-            });
-        });
-
-        let fireUsers = db.ref('users');
-        fireUsers.orderByChild('name').on('child_added', snapshot => {
-            this.setState(currentState => {
-                const newState = Object.assign({}, currentState);
-                newState.usersList = newState.usersList.concat({
-                    id: snapshot.key,
-                    name: snapshot.val().name
-                });
-                return newState;
-            });
         });
     }
 }

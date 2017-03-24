@@ -5,7 +5,6 @@
  */
 var mongoose = require('mongoose');
 
-//var MediumSchema = require('../media/model');
 var MediumSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -14,7 +13,20 @@ var MediumSchema = new mongoose.Schema({
     acquired: Number
 });
 
-var Screening = require('../screenings/model');
+var Venue = require('../venues/model');
+var User = require('../users/model');
+
+var ScreeningSchema = new mongoose.Schema({
+    date: Number,
+    venue: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Venue'
+    },
+    users: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User'
+    }
+});
 
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();
@@ -40,11 +52,10 @@ var FilmSchema = new mongoose.Schema({
         type: [MediumSchema],
         default: []
     },
-    screenings: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Screening',
+    screenings: {
+        type: [ScreeningSchema],
         default: []
-    }]
+    }
 });
 
 module.exports = mongoose.model('Film', FilmSchema);

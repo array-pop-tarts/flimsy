@@ -6,12 +6,11 @@
 var Film = require('./model');
 
 exports.index = function (req, res) {
-    Film.find().populate({
-        path: "screenings",
-        populate: [
-            {path: "venue", model: "Venue"},
-            {path: "users", model: "User"}
-            ]}).exec()
+    Film.find()
+        .populate([
+            { path: "screenings.venue", model: "Venue" },
+            { path: "screenings.users", model: "User" }
+        ])
         .then(films => res.send(films))
         .catch(err => {
             console.log(err);
