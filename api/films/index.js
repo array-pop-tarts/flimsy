@@ -10,4 +10,9 @@ var controller = require('./controller');
 
 router.get('/', controller.index);
 
+router.post('/', controller.create);
+router.put('/:id', controller.update);
+
+router.post('/:id/screening', controller.createScreening);
+
 module.exports = router;

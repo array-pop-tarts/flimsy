@@ -177,13 +177,13 @@ class ScreeningForm extends React.Component {
         e.preventDefault();
 
         let selectedUsersNames = this.state.selectedUsers.names || "";
-        selectedUsersNames = (selectedUsersNames).length > 0 ? selectedUsersNames + ", " + user.name : user.name;
+        selectedUsersNames = (selectedUsersNames).length > 0 ?
+            selectedUsersNames + ", " + user.name :
+            user.name;
 
         let selectedUsers = this.state.selectedUsers.users || [];
-        let selectedUser = {
-            id: user._id,
-            name: user.name
-        };
+        let selectedUser = user._id;
+
         selectedUsers.push(selectedUser);
 
         this.setState({
@@ -199,42 +199,27 @@ class ScreeningForm extends React.Component {
     onSaveScreening(e) {
         e.preventDefault();
 
-        let selectedDate = (this.state.selectedDate);
+        let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
-
-        let users = {};
-        this.state.selectedUsers.users.map(user => {
-            users[user.id] = true;
-        });
 
         const screening = {
             date: dateTimestamp,
             venue: this.state.selectedVenue.id,
-            users: users
+            users: this.state.selectedUsers.users
         };
 
         let fullDate = new Date(dateTimestamp);
         let newScreenedYear = fullDate.getFullYear();
 
-        const db = firebase.database();
-
-        let savedScreenedYearRef = db.ref('/films/' + this.props.filmId + '/screened');
-        let savedScreenedYear = null;
-        savedScreenedYearRef.on('value', snapshot => {
-            savedScreenedYear = snapshot.val();
-        });
-
-        let newScreening = {};
-        if (! savedScreenedYear || (newScreenedYear < savedScreenedYear)) {
-            newScreening['/films/' + this.props.filmId + '/screened'] = newScreenedYear;
-        }
-
-        const fireScreenings = db.ref('screenings');
-        let newFireScreening = fireScreenings.push(screening);
-
-        newScreening['/films/' + this.props.filmId + '/screenings/' + newFireScreening.key] = true;
-
-        db.ref().update(newScreening);
+        fetch(`/api/films/${this.props.filmId}/screening`, {
+            method: 'POST',
+            body: screening
+        })
+            .then(res => res.json())
+            .then(json => this.setState({
+                films: json,
+                loaded_films: true
+            }));
 
         this.setState({
             selectedVenue: {},
