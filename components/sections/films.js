@@ -29,8 +29,6 @@ class Films extends React.Component {
     }
 
     render() {
-        console.log(this.state.films);
-
         if (this.state.loaded_films) {
             return (
                 <div className="masonry">

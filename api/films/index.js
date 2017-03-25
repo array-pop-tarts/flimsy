@@ -14,5 +14,6 @@ router.post('/', controller.create);
 router.put('/:id', controller.update);
 
 router.post('/:id/screening', controller.createScreening);
+router.post('/:id/medium', controller.createMedium);
 
 module.exports = router;

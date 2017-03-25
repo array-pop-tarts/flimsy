@@ -202,20 +202,24 @@ class ScreeningForm extends React.Component {
         let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
 
-        const screening = {
+        let screening = {
             date: dateTimestamp,
             venue: this.state.selectedVenue.id,
             users: this.state.selectedUsers.users
         };
+
+        console.log(screening);
 
         let fullDate = new Date(dateTimestamp);
         let newScreenedYear = fullDate.getFullYear();
 
         fetch(`/api/films/${this.props.filmId}/screening`, {
             method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
             body: JSON.stringify(screening)
         })
-            .then(res => res.json())
             .then(json => this.setState({
                 films: json,
                 loaded_films: true

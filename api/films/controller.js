@@ -3,6 +3,8 @@
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
+var mongoose = require('mongoose');
+
 var Film = require('./model');
 
 exports.index = function (req, res) {
@@ -51,8 +53,30 @@ exports.createScreening = function (req, res) {
                     res.send(err);
                 });
         })
-        .catch(() => {
+        .catch((err) => {
             res.status(404);
-            res.send("Film not found")
+            res.send(err.message)
+        });
+};
+
+exports.createMedium = function (req, res) {
+    Film.findById(req.params.id)
+        .then((film) => {
+            film.media.push({
+                acquired: req.body.acquired,
+                type: req.body.type
+            });
+            film.save()
+                .then((film) => {
+                    res.send(film);
+                })
+                .catch((err) => {
+                    res.status(422);
+                    res.send(err);
+                });
+        })
+        .catch((err) => {
+            res.status(404);
+            res.send(err.message)
         });
 };
