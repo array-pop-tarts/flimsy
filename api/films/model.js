@@ -43,6 +43,7 @@ var FilmSchema = new mongoose.Schema({
         min: 1888,
         max: currentYear
     },
+    screened: Number,
     rating: {
         type: Number,
         min: 1,

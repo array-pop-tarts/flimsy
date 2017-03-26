@@ -65,19 +65,22 @@ class MediaForm extends React.Component {
 
     onSaveMedia(e) {
         e.preventDefault();
-        const fireMedia = firebase.database().ref('media');
         let selectedDate = (this.state.date);
         let acquired = selectedDate._d.getTime();
+
         const medium = {
             acquired: acquired,
             type: this.state.type
         };
-        let newFireMedium = fireMedia.push(medium);
 
-        let newMedium = {};
-        newMedium['/films/' + this.props.filmId + '/media/' + newFireMedium.key] = true;
-
-        firebase.database().ref().update(newMedium);
+        fetch(`/api/films/${this.props.filmId}/medium`, {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(medium)
+        })
+            .then(() => { this.props.onRefresh() });
     }
 }
 

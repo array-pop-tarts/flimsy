@@ -28,7 +28,7 @@ class ScreeningForm extends React.Component {
                 date: false,
                 venue: false,
                 users: false
-            },
+            }
         };
 
         this.toggleVenuesHelper = this.toggleVenuesHelper.bind(this);
@@ -208,8 +208,6 @@ class ScreeningForm extends React.Component {
             users: this.state.selectedUsers.users
         };
 
-        console.log(screening);
-
         let fullDate = new Date(dateTimestamp);
         let newScreenedYear = fullDate.getFullYear();
 
@@ -220,15 +218,12 @@ class ScreeningForm extends React.Component {
             },
             body: JSON.stringify(screening)
         })
-            .then(json => this.setState({
-                films: json,
-                loaded_films: true
-            }));
-
-        this.setState({
-            selectedVenue: {},
-            selectedUsers: {}
-        });
+            .then(() => {
+                this.setState({
+                    selectedVenue: {},
+                    selectedUsers: {}
+                }, this.props.onRefresh);
+            });
     }
 }
 

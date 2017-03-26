@@ -39,6 +39,12 @@ exports.update = function (req, res) {
 exports.createScreening = function (req, res) {
     Film.findById(req.params.id)
         .then((film) => {
+
+            let timestamp = new Date(req.body.date);
+            let screeningYear = timestamp.getFullYear();
+            if (!(film.hasOwnProperty('screened')) || film.screened > screeningYear)
+                film.screened = screeningYear;
+
             film.screenings.push({
                 date: req.body.date,
                 venue: req.body.venue,

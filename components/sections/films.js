@@ -14,7 +14,7 @@ class Films extends React.Component {
         super();
 
         this.state = {
-            films: [{}],
+            films: [],
             users: [],
             venues: [],
 
@@ -26,6 +26,8 @@ class Films extends React.Component {
         };
 
         this.toggleFilmForm = this.toggleFilmForm.bind(this);
+
+        this.refresh = this.refresh.bind(this);
     }
 
     render() {
@@ -46,6 +48,7 @@ class Films extends React.Component {
                                   i={ i }
                                   users={ this.state.users }
                                   venues={ this.state.venues }
+                                  onRefresh={ this.refresh() }
                             />
                         );
                     })}
@@ -61,7 +64,7 @@ class Films extends React.Component {
         this.setState({showFilmForm: showFilmForm});
     }
 
-    componentDidMount() {
+    refresh() {
         fetch('/api/films')
             .then(res => res.json())
             .then(json => this.setState({
@@ -83,6 +86,11 @@ class Films extends React.Component {
                 loaded_venues: true
             }));
     }
+
+    componentDidMount() {
+        this.refresh();
+    }
+
 }
 
 export default Films;
