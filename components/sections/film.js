@@ -72,7 +72,7 @@ class Film extends React.Component {
                         { this.state.showForms.Screening ?
                             <ScreeningForm filmId={this.props.film._id}
                                            users={ this.props.users }
-                                           venues={ this.props.venues }
+                                           //venues={ this.props.venues }
                                            onRefresh={ this.props.onRefresh } /> :
                             null }
                     </div>

@@ -1,5 +1,5 @@
 /**
- *
+ * api/venues/index
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
@@ -9,5 +9,6 @@ var router = new express.Router();
 var controller = require('./controller');
 
 router.get('/', controller.index);
+router.post('/', controller.create);
 
 module.exports = router;

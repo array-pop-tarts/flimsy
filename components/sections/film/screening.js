@@ -25,7 +25,7 @@ class Screening extends React.Component {
                     { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
                 </div>
                 <div className="screening-friends">
-                    { this.renderUsers(this.props.screening.users)}
+                    { this.renderUsers(this.props.screening.users) }
                 </div>
             </li>
         );
@@ -36,10 +36,13 @@ class Screening extends React.Component {
     }
 
     renderUsers(users) {
-        let names = users.map(user => {
-            return user.name;
-        });
-        return names.join(', ');
+        if (users.length > 0) {
+            let names = users.map(user => {
+                return user.name;
+            });
+            return names.join(', ');
+        } else
+            return "";
     }
 
 }

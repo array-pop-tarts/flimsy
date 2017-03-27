@@ -1,0 +1,14 @@
+- close inner component in outer component upon completion of action
+- passing refresh down too many levels
+- calling fetch many times
+
+- validation of movie forms
+- show errors / error states for movies
+- edit forms
+- delete items
+- make form helpers hover
+- autocomplete from helpers
+- clear autocomplete
+- add new friends and venues on the fly
+- movie search form
+- clean up rating
