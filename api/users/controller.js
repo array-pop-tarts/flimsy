@@ -6,10 +6,14 @@
 var User = require('./model');
 
 exports.index = function (req, res) {
-    User.find()
+    let query = {};
+    if (req.query.name) {
+        query.name = {$regex: req.query.name, $options: 'i'};
+    }
+
+    User.find(query)
         .then(users => res.send(users))
         .catch(err => {
-            res.status(404);
-            res.send("Not found");
+            res.send(err.message);
         });
 };

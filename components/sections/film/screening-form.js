@@ -16,6 +16,7 @@ class ScreeningForm extends React.Component {
         super();
         this.state = {
             venuesList: [],
+            usersList: [],
 
             selectedDate: moment(),
             selectedVenue: {},
@@ -181,8 +182,25 @@ class ScreeningForm extends React.Component {
     }
 
     onUsersChange(e) {
-        let selectedUsers = this.state.selectedUsers;
-        selectedUsers.names = e.target.value;
+        fetch(`/api/users/?name=${e.target.value}`)
+            .then(res => res.json())
+            .then(users => {
+                this.setState({
+                    usersList: users
+                }, function () {
+                    if (! this.state.showHelpers.Users) {
+                        let showHelpers = this.state.showHelpers;
+                        showHelpers.Users = true;
+                        this.setState({
+                            showHelpers: showHelpers
+                        });
+                    }
+                });
+            });
+
+        let selectedUsers = {
+            names: e.target.value
+        };
         this.setState({ selectedUsers: selectedUsers });
     }
 
@@ -196,7 +214,7 @@ class ScreeningForm extends React.Component {
         return (
             <div className="list-group">
                 {
-                    this.props.users.map((user, i) => {
+                    this.state.usersList.map((user, i) => {
                         return (
                             <button
                                 className="list-group-item list-group-item-action"
@@ -242,8 +260,6 @@ class ScreeningForm extends React.Component {
     onSaveScreening(e) {
         e.preventDefault();
 
-        let venueId;
-
         if (! this.state.selectedVenue.hasOwnProperty('id')) {
             fetch('/api/venues', {
                 method: 'POST',
@@ -251,10 +267,12 @@ class ScreeningForm extends React.Component {
                 body: JSON.stringify({ name: this.state.selectedVenue.name })
             })
                 .then((venue) => {
-                    venueId = venue._id;
+                    let selectedVenue = this.state.selectedVenue;
+                    selectedVenue.id = venue._id;
+                    this.setState({
+                        selectedVenue: selectedVenue
+                    });
                 });
-        } else {
-            venueId = this.state.selectedVenue.id;
         }
 
         let selectedDate = this.state.selectedDate;
@@ -262,8 +280,8 @@ class ScreeningForm extends React.Component {
 
         let screening = {
             date: dateTimestamp,
-            venue: venueId,
-            users: this.state.selectedUsers.users
+            venue: this.state.selectedVenue.id,
+            //users: this.state.selectedUsers.users
         };
 
         let fullDate = new Date(dateTimestamp);
