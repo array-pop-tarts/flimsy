@@ -20,7 +20,8 @@ class ScreeningForm extends React.Component {
 
             selectedDate: moment(),
             selectedVenue: {},
-            selectedUsers: {},
+            userInput: "",
+            selectedUsers: [],
 
             showHelpers: {
                 Venues: false,
@@ -42,6 +43,7 @@ class ScreeningForm extends React.Component {
         this.toggleUsersHelper = this.toggleUsersHelper.bind(this);
         this.renderUsersHelper = this.renderUsersHelper.bind(this);
         this.selectUser = this.selectUser.bind(this);
+        this.renderSelectedUsers = this.renderSelectedUsers.bind(this);
 
         this.onDateChange = this.onDateChange.bind(this);
         this.onVenueChange = this.onVenueChange.bind(this);
@@ -70,17 +72,11 @@ class ScreeningForm extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <div>
-                        <ul className="list-inline">
-                            <li className="list-inline-item">Evan <button>x</button></li>
-                            <li className="list-inline-item">Richard <button>x</button></li>
-                        </ul>
-                    </div>
+                    { this.state.selectedUsers.length > 0 ? this.renderSelectedUsers() : null }
                     <input type="text"
                            className="form-control form-control-sm"
                            placeholder="Did you got to the movies by yourself again?"
-                           value={ this.state.selectedUsers.names || "" }
-                           onMouseOver={ this.toggleUsersHelper }
+                           value={ this.state.userInput }
                            onChange={ this.onUsersChange }
                     />
                     { this.state.showHelpers.Users ? this.renderUsersHelper() : null}
@@ -198,10 +194,7 @@ class ScreeningForm extends React.Component {
                 });
             });
 
-        let selectedUsers = {
-            names: e.target.value
-        };
-        this.setState({ selectedUsers: selectedUsers });
+        this.setState({ userInput: e.target.value });
     }
 
     toggleUsersHelper() {
@@ -237,24 +230,38 @@ class ScreeningForm extends React.Component {
     selectUser(user, e) {
         e.preventDefault();
 
-        let selectedUsersNames = this.state.selectedUsers.names || "";
-        selectedUsersNames = (selectedUsersNames).length > 0 ?
-            selectedUsersNames + ", " + user.name :
-            user.name;
-
-        let selectedUsers = this.state.selectedUsers.users || [];
-        let selectedUser = user._id;
+        let selectedUsers = this.state.selectedUsers;
+        let selectedUser = {
+            id: user._id,
+            name: user.name
+        };
 
         selectedUsers.push(selectedUser);
 
         this.setState({
-            selectedUsers: {
-                names: selectedUsersNames,
-                users: selectedUsers
-            }
+            selectedUsers: selectedUsers,
+            userInput: ""
         });
 
         this.toggleUsersHelper();
+    }
+
+    renderSelectedUsers() {
+        return (
+            <div>
+                <ul className="list-inline">
+                    {
+                        this.state.selectedUsers.map((user, i) => {
+                            return (
+                                <li className="list-inline-item" key={ i }>
+                                    { user.name } <button>x</button>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+            </div>
+        );
     }
 
     onSaveScreening(e) {
@@ -278,14 +285,15 @@ class ScreeningForm extends React.Component {
         let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
 
+        let userIds = this.state.selectedUsers.map(user => {
+            return user.id;
+        });
+
         let screening = {
             date: dateTimestamp,
             venue: this.state.selectedVenue.id,
-            //users: this.state.selectedUsers.users
+            users: userIds
         };
-
-        let fullDate = new Date(dateTimestamp);
-        let newScreenedYear = fullDate.getFullYear();
 
         fetch(`/api/films/${this.props.filmId}/screening`, {
             method: 'POST',

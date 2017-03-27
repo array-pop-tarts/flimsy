@@ -9,6 +9,7 @@
 - delete items
 - make form helpers hover
 - autocomplete from helpers
+- remove selected from helpers
 - clear autocomplete
 - add new friends and venues on the fly
 - movie search form
