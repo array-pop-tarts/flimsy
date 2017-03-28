@@ -174,13 +174,14 @@ class Film extends React.Component {
     addToMyFilms() {
         let film = this.props.film;
         delete film.isMyFilm;
-        console.log(film);
         fetch('/api/films', {
             method: 'POST',
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(film)
         })
-            .then(film => console.log(film));
+            .then(film => {
+                // refresh the omdb fetch?
+            });
     }
 
 }

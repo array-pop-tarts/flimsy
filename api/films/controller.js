@@ -25,9 +25,9 @@ exports.show = function (req, res) {
 
 exports.create = function (req, res) {
     let film = new Film();
-    film.title = req.params.title;
-    film.released = req.params.released;
-    film.imdbId = req.params.imdbId;
+    film.title = req.body.title;
+    film.released = req.body.released;
+    film.imdbId = req.body.imdbId;
     film.save()
         .then(() => res.send(film))
         .catch(err => res.send(err));
