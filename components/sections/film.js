@@ -102,7 +102,7 @@ class Film extends React.Component {
     }
 
     renderScreenings() {
-        if (this.props.film.screenings.length) {
+        if (this.props.film.hasOwnProperty('screenings') && this.props.film.screenings.length) {
             return (
                 <div>
                     <Screenings screeningsInfo={ this.props.film.screenings } />
@@ -124,7 +124,7 @@ class Film extends React.Component {
     }
 
     renderMedia() {
-        if (this.props.film.media.length) {
+        if (this.props.film.hasOwnProperty('media') && this.props.film.media.length) {
             return (
                 <div className="available-media">
                     <AvailableMedia mediaInfo={ this.props.film.media } />

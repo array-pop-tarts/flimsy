@@ -23,6 +23,9 @@ class ScreeningForm extends React.Component {
             userInput: "",
             selectedUsers: [],
 
+            newVenue: {},
+            newUsers: [],
+
             showHelpers: {
                 Venues: false,
                 Users: false
@@ -41,6 +44,7 @@ class ScreeningForm extends React.Component {
         this.selectVenue = this.selectVenue.bind(this);
 
         this.toggleUsersHelper = this.toggleUsersHelper.bind(this);
+        this.toggleNewUserButton = this.toggleNewUserButton.bind(this);
         this.renderUsersHelper = this.renderUsersHelper.bind(this);
         this.selectUser = this.selectUser.bind(this);
         this.renderSelectedUsers = this.renderSelectedUsers.bind(this);
@@ -203,6 +207,19 @@ class ScreeningForm extends React.Component {
         this.setState({showHelpers: showHelpers});
     }
 
+    toggleNewUserButton() {
+        if (this.state.userInput.length >= 1) {
+            return (
+                <button
+                    className="list-group-item list-group-item-action"
+                    onClick={(e) => this.selectUser({ name: this.state.userInput }, e)}
+                >
+                    Add new friend: { this.state.userInput }
+                </button>
+            );
+        }
+    }
+
     renderUsersHelper() {
         return (
             <div className="list-group">
@@ -219,6 +236,7 @@ class ScreeningForm extends React.Component {
                         )
                     })
                 }
+                { this.toggleNewUserButton() }
                 <button
                     className="list-group-item list-group-item-action text-center"
                     onClick={ this.toggleUsersHelper }
