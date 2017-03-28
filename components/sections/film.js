@@ -40,6 +40,8 @@ class Film extends React.Component {
 
         this.toggleScreeningForm = this.toggleScreeningForm.bind(this);
         this.toggleMediaForm = this.toggleMediaForm.bind(this);
+
+        this.addToMyFilms = this.addToMyFilms.bind(this);
     }
 
     render() {
@@ -54,6 +56,8 @@ class Film extends React.Component {
                         <FilmInfo title={this.props.film.title}
                                   translation={this.props.film.translation}
                                   released={this.props.film.released}
+                                  isMyFilm={this.props.film.isMyFilm}
+                                  onAddToMyFilms={ this.addToMyFilms }
                         />
                         <div className={ "rating h6 " + ratedClass }>
                             { this.renderRating(film.rating) }
@@ -167,6 +171,17 @@ class Film extends React.Component {
         this.setState({showForms: showForms});
     }
 
+    addToMyFilms() {
+        let film = this.props.film;
+        delete film.isMyFilm;
+        console.log(film);
+        fetch('/api/films', {
+            method: 'POST',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(film)
+        })
+            .then(film => console.log(film));
+    }
 
 }
 

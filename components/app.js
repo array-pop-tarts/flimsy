@@ -28,28 +28,29 @@ class App extends React.Component {
         return (
             <div className="container-fluid">
                 <Header/>
-                <div className="input-group">
-                    <input className="form-control"
-                           type="text"
-                           placeholder="Search for films..."
-                           value={ this.state.search }
-                           onChange={ (e) => this.updateSearchInput(e) }
-                    />
-                    <span className="input-group-addon">
-                        <input type="checkbox"
-                               aria-label="Checkbox selects whether to search only within my films"
-                               value={ this.state.myFilm }
-                               onChange={ (e) => this.updateMyFilmsCheckbox(e) }
+                <form className="search-films" onSubmit={ (e) => this.search(e) } >
+                    <div className="input-group">
+                        <input className="form-control"
+                               type="text"
+                               placeholder="Search for films..."
+                               value={ this.state.search }
+                               onChange={ (e) => this.updateSearchInput(e) }
                         />
-                    </span>
-                    <span className="input-group-addon">My Films</span>
-                     <span className="input-group-btn">
-                        <button className="btn btn-success"
-                                type="button"
-                                onClick={ this.search }
-                        >Search</button>
-                     </span>
-                </div>
+                        <span className="input-group-addon">
+                            <input type="checkbox"
+                                   aria-label="Checkbox selects whether to search only within my films"
+                                   value={ this.state.myFilm }
+                                   onChange={ (e) => this.updateMyFilmsCheckbox(e) }
+                            />
+                        </span>
+                        <span className="input-group-addon">My Films</span>
+                         <span className="input-group-btn">
+                            <button className="btn btn-success"
+                                    type="submit"
+                            >Search</button>
+                         </span>
+                    </div>
+                </form>
                 <Films films={ this.state.imdbFilms } />
             </div>
         );
@@ -67,22 +68,37 @@ class App extends React.Component {
         });
     }
 
-    search() {
+    search(e) {
+        e.preventDefault();
+
+        let imdbFilms;
+
         fetch(`http://www.omdbapi.com/?s=${ this.state.search }&type=movie`)
             .then(res => res.json())
-            .then(json =>  {
+            .then(json => {
                 if (json.Response === "True") {
-                    let films = json.Search.map(film => {
-                        return {
-                            title: film.Title,
-                            released: film.Year,
-                            imdbId: film.imdbID
-                        };
-                    });
-                    this.setState({
-                        imdbFilms: films
-                    });
+                    imdbFilms = json;
+                    let queryImdbFilms = imdbFilms.Search.map(film => film.imdbID).join(",");
+                    return fetch(`/api/films/imdbIds?imdbIds=${queryImdbFilms}`);
                 }
+            })
+            .then(res => res.json())
+            .then(myFilms => {
+                let films = imdbFilms.Search.map(film => {
+                    let isMyFilm = false;
+                    if (myFilms.length > 0 && myFilms.find(myFilm => myFilm.imdbId == film.imdbID))
+                        isMyFilm = true;
+                    return {
+                        title: film.Title,
+                        released: film.Year,
+                        imdbId: film.imdbID,
+                        isMyFilm: isMyFilm
+                    };
+                });
+
+                this.setState({
+                    imdbFilms: films
+                });
             });
     }
 

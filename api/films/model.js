@@ -14,7 +14,7 @@ var MediumSchema = new mongoose.Schema({
 });
 
 var Venue = require('../venues/model');
-var User = require('../users/model');
+var Friend = require('../friends/model');
 
 var ScreeningSchema = new mongoose.Schema({
     date: Number,
@@ -22,9 +22,9 @@ var ScreeningSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Venue'
     },
-    users: {
+    friends: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User'
+        ref: 'Friend'
     }
 });
 
@@ -43,6 +43,7 @@ var FilmSchema = new mongoose.Schema({
         min: 1888,
         max: currentYear
     },
+    imdbId: String,
     screened: Number,
     rating: {
         type: Number,

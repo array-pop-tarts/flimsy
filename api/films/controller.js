@@ -14,15 +14,23 @@ exports.index = function (req, res) {
             { path: "screenings.users", model: "User" }
         ])
         .then(films => res.send(films))
-        .catch(err => {
-            console.log(err);
-            res.status(404);
-            res.send("Not found");
-        });
+        .catch(err => res.send(err));
+};
+
+exports.show = function (req, res) {
+    Film.findOne({imdbId: req.params.imdbId})
+        .then(film => res.send(JSON.stringify(film)))
+        .catch(err => res.send(err));
 };
 
 exports.create = function (req, res) {
-
+    let film = new Film();
+    film.title = req.params.title;
+    film.released = req.params.released;
+    film.imdbId = req.params.imdbId;
+    film.save()
+        .then(() => res.send(film))
+        .catch(err => res.send(err));
 };
 
 exports.update = function (req, res) {
@@ -85,4 +93,11 @@ exports.createMedium = function (req, res) {
             res.status(404);
             res.send(err.message)
         });
+};
+
+exports.findByImdbIds = function (req, res) {
+    let imdbIds = req.query.imdbIds.split(",");
+    Film.find({imdbId: imdbIds})
+        .then(films => res.send(films))
+        .catch(err => res.send(err));
 };

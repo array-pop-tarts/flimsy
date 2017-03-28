@@ -233,19 +233,30 @@ ul {
   color: $gray-lighter;
 }
 
+.rating, .is-my-film {
+    .btn {
+        background-color: transparent;
+        border: none;
+    }
+}
+
 .rating {
     .btn {
         color: $orange;
         padding: 0.1rem 0.25rem;
         line-height: normal;
-        background-color: transparent;
-        border: none;
     }
 }
 
 .unrated {
     .btn {
         color: $gray-light;
+    }
+}
+
+.is-my-film {
+    .btn, button {
+        padding: 0;
     }
 }
 
