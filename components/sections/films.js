@@ -18,7 +18,7 @@ class Films extends React.Component {
             loaded_films: false
         };
 
-        this.refresh = this.refresh.bind(this);
+        //this.refresh = this.refresh.bind(this);
     }
 
     render() {

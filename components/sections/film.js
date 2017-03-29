@@ -49,6 +49,12 @@ class Film extends React.Component {
         let film = this.props.film;
         let ratedClass = (film.rating) ? "" : "unrated";
 
+        let isMyFilm = false;
+        if (this.props.film.hasOwnProperty('_id') ||
+            this.props.film.hasOwnProperty('isMyFilm') &&
+            this.props.film.isMyFilm)
+            isMyFilm = true;
+
         return (
             <div className="brick">
                 <div className="card film-card">
@@ -56,7 +62,7 @@ class Film extends React.Component {
                         <FilmInfo title={this.props.film.title}
                                   translation={this.props.film.translation}
                                   released={this.props.film.released}
-                                  isMyFilm={this.props.film.isMyFilm}
+                                  isMyFilm={ isMyFilm }
                                   onAddToMyFilms={ this.addToMyFilms }
                         />
                         <div className={ "rating h6 " + ratedClass }>

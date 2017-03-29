@@ -8,16 +8,12 @@ import React from 'react';
 import ReleasedYear from './released_year';
 
 class FilmInfo extends React.Component {
-    render() {
-        let starClass, starColour;
-        if (this.props.isMyFilm) {
-            starClass = "star";
-            starColour = "warning";
-        } else {
-            starClass = "star-o";
-            starColour = "muted";
-        }
+    constructor() {
+        super();
+        this.renderIsMyField = this.renderIsMyField.bind(this);
+    }
 
+    render() {
         return (
             <div className="d-flex justify-content-start">
                 <div>
@@ -25,15 +21,30 @@ class FilmInfo extends React.Component {
                     <h3>{ this.props.title }</h3>
                 </div>
                 <div className="is-my-film ml-auto">
-                    <button title="Add to My Films"
-                            className={ `btn text-${starColour}`}
-                            onClick={ this.props.onAddToMyFilms }
-                    >
-                        <i className={ `fa fa-${starClass} fa-2x` }></i>
-                    </button>
+                    { this.renderIsMyField() }
                 </div>
             </div>
         );
+    }
+
+    renderIsMyField() {
+        if (this.props.isMyFilm) {
+            return (
+                <span className="text-warning">
+                    <i className="fa fa-star fa-2x"></i>
+                </span>
+            );
+
+        } else {
+            return (
+                <button title="Add to My Films"
+                        className="btn text-muted"
+                        onClick={ this.props.onAddToMyFilms }
+                >
+                    <i className="fa fa-star-o fa-2x"></i>
+                </button>
+            );
+        }
     }
 }
 
