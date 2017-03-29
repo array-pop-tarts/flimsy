@@ -30,7 +30,7 @@ class Films extends React.Component {
                             <Film film={ film }
                                   key={ i }
                                   i={ i }
-                                  onRefresh={ this.refresh() }
+                                  //onRefresh={ this.refresh() }
                             />
                         );
                     })}
@@ -42,29 +42,6 @@ class Films extends React.Component {
         }
 */
     }
-
-    refresh() {
-        /*
-        fetch('/api/films')
-            .then(res => res.json())
-            .then(json => this.setState({
-                films: json,
-                loaded_films: true
-            }));
-        */
-    }
-
-    componentDidMount() {
-/*
-        fetch('/api/films')
-            .then(res => res.json())
-            .then(json => this.setState({
-                films: json,
-                loaded_films: true
-            }));
-*/
-    }
-
 }
 
 export default Films;

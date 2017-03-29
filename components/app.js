@@ -14,21 +14,24 @@ class App extends React.Component {
         super();
         this.state = {
             search: "",
-            myFilm: false,
+            searchMyFilmsOnly: true,
 
-            imdbFilms: []
+            films: []
         };
 
         this.updateSearchInput = this.updateSearchInput.bind(this);
         this.updateMyFilmsCheckbox = this.updateMyFilmsCheckbox.bind(this);
-        this.search = this.search.bind(this);
+
+        this.handleSearch = this.handleSearch.bind(this);
+        this.searchMyFilms = this.searchMyFilms.bind(this);
+        this.searchImdbFilms = this.searchImdbFilms.bind(this);
     }
 
     render() {
         return (
             <div className="container-fluid">
                 <Header/>
-                <form className="search-films" onSubmit={ (e) => this.search(e) } >
+                <form className="search-films" onSubmit={ (e) => this.handleSearch(e) } >
                     <div className="input-group">
                         <input className="form-control"
                                type="text"
@@ -39,7 +42,7 @@ class App extends React.Component {
                         <span className="input-group-addon">
                             <input type="checkbox"
                                    aria-label="Checkbox selects whether to search only within my films"
-                                   value={ this.state.myFilm }
+                                   checked={ this.state.searchMyFilmsOnly }
                                    onChange={ (e) => this.updateMyFilmsCheckbox(e) }
                             />
                         </span>
@@ -51,7 +54,7 @@ class App extends React.Component {
                          </span>
                     </div>
                 </form>
-                <Films films={ this.state.imdbFilms } />
+                <Films films={ this.state.films } />
             </div>
         );
     }
@@ -64,13 +67,29 @@ class App extends React.Component {
 
     updateMyFilmsCheckbox(e) {
         this.setState({
-            myFilms: e.target.value
+            searchMyFilmsOnly: e.target.checked
         });
     }
 
-    search(e) {
+    handleSearch(e) {
         e.preventDefault();
 
+        if (this.state.searchMyFilmsOnly)
+            this.searchMyFilms();
+        else
+            this.searchImdbFilms();
+    }
+
+    searchMyFilms() {
+        fetch(`/api/films?search=${ this.state.search }`)
+            .then(res => res.json())
+            .then(json => this.setState({
+                films: json,
+                //loaded_films: true
+            }));
+    }
+
+    searchImdbFilms() {
         let imdbFilms;
 
         fetch(`http://www.omdbapi.com/?s=${ this.state.search }&type=movie`)
@@ -97,11 +116,14 @@ class App extends React.Component {
                 });
 
                 this.setState({
-                    imdbFilms: films
+                    films: films
                 });
             });
     }
 
+    componentDidMount() {
+        this.searchMyFilms();
+    }
 }
 
 export default App;

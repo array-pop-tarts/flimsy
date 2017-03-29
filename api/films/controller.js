@@ -8,7 +8,11 @@ var mongoose = require('mongoose');
 var Film = require('./model');
 
 exports.index = function (req, res) {
-    Film.find()
+    let query = {};
+    if (req.query.search)
+        query.title = { $regex: req.query.search, $options: 'i'};
+
+    Film.find(query)
         .populate([
             { path: "screenings.venue", model: "Venue" },
             { path: "screenings.users", model: "User" }
