@@ -7,7 +7,6 @@ import React from 'react';
 import moment from 'moment';
 
 import Venue from './venue';
-import User from './user';
 
 class Screening extends React.Component {
 
@@ -15,17 +14,18 @@ class Screening extends React.Component {
         super();
 
         this.renderDate = this.renderDate.bind(this);
-        this.renderUsers = this.renderUsers.bind(this);
+        this.renderFriends = this.renderFriends.bind(this);
     }
 
     render() {
+        console.log(this.props.screening);
         return (
             <li className="list-group-item  justify-content-between">
                 <div>
                     { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
                 </div>
                 <div className="screening-friends">
-                    { this.renderUsers(this.props.screening.users) }
+                    { this.renderFriends(this.props.screening.friends) }
                 </div>
             </li>
         );
@@ -35,10 +35,10 @@ class Screening extends React.Component {
         return moment(this.props.screening.date).format('YYYY-MM-DD');
     }
 
-    renderUsers(users) {
-        if (users.length > 0) {
-            let names = users.map(user => {
-                return user.name;
+    renderFriends(friends) {
+        if (friends.length > 0) {
+            let names = friends.map(friend => {
+                return friend.name;
             });
             return names.join(', ');
         } else

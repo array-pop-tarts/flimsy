@@ -3,7 +3,7 @@
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
 var MediumSchema = new mongoose.Schema({
     type: {
@@ -16,17 +16,7 @@ var MediumSchema = new mongoose.Schema({
 var Venue = require('../venues/model');
 var Friend = require('../friends/model');
 
-var ScreeningSchema = new mongoose.Schema({
-    date: Number,
-    venue: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Venue'
-    },
-    friends: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Friend'
-    }
-});
+let ScreeningSchema = require('./screening_schema');
 
 var currentDate = new Date();
 var currentYear = currentDate.getFullYear();

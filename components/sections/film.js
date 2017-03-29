@@ -7,7 +7,6 @@ import React from 'react';
 import firebase from 'firebase';
 
 import FilmInfo from './film/film-info';
-import FilmForm from './film/film-form';
 
 import Rating from './film/rating';
 import Screenings from './film/screenings';

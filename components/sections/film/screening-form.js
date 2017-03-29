@@ -4,11 +4,8 @@
  * Created: 2017-02-26
  */
 import React from 'react';
-import firebase from 'firebase';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
-import VenuesHelperList from './venues-helper-list';
 
 class ScreeningForm extends React.Component {
 
@@ -16,25 +13,25 @@ class ScreeningForm extends React.Component {
         super();
         this.state = {
             venuesList: [],
-            usersList: [],
+            friendsList: [],
 
             selectedDate: moment(),
             selectedVenue: {},
-            userInput: "",
-            selectedUsers: [],
+            friendInput: "",
+            selectedFriends: [],
 
             newVenue: {},
-            newUsers: [],
+            newFriends: [],
 
             showHelpers: {
                 Venues: false,
-                Users: false
+                Friends: false
             },
 
             errors: {
                 date: false,
                 venue: false,
-                users: false
+                friends: false
             }
         };
 
@@ -43,15 +40,16 @@ class ScreeningForm extends React.Component {
         this.renderVenuesHelper = this.renderVenuesHelper.bind(this);
         this.selectVenue = this.selectVenue.bind(this);
 
-        this.toggleUsersHelper = this.toggleUsersHelper.bind(this);
-        this.toggleNewUserButton = this.toggleNewUserButton.bind(this);
-        this.renderUsersHelper = this.renderUsersHelper.bind(this);
-        this.selectUser = this.selectUser.bind(this);
-        this.renderSelectedUsers = this.renderSelectedUsers.bind(this);
+        this.toggleFriendsHelper = this.toggleFriendsHelper.bind(this);
+        this.toggleNewFriendButton = this.toggleNewFriendButton.bind(this);
+        this.renderFriendsHelper = this.renderFriendsHelper.bind(this);
+        this.selectFriend = this.selectFriend.bind(this);
+        this.renderSelectedFriends = this.renderSelectedFriends.bind(this);
+        this.deselectFriend = this.deselectFriend.bind(this);
 
         this.onDateChange = this.onDateChange.bind(this);
         this.onVenueChange = this.onVenueChange.bind(this);
-        this.onUsersChange = this.onUsersChange.bind(this);
+        this.onFriendsChange = this.onFriendsChange.bind(this);
     }
 
     render() {
@@ -76,14 +74,14 @@ class ScreeningForm extends React.Component {
                     </div>
                 </div>
                 <div>
-                    { this.state.selectedUsers.length > 0 ? this.renderSelectedUsers() : null }
+                    { this.state.selectedFriends.length > 0 ? this.renderSelectedFriends() : null }
                     <input type="text"
                            className="form-control form-control-sm"
                            placeholder="Did you got to the movies by yourself again?"
-                           value={ this.state.userInput }
-                           onChange={ this.onUsersChange }
+                           value={ this.state.friendInput }
+                           onChange={ this.onFriendsChange }
                     />
-                    { this.state.showHelpers.Users ? this.renderUsersHelper() : null}
+                    { this.state.showHelpers.Friends ? this.renderFriendsHelper() : null}
                 </div>
                 <button className="btn btn-sm btn-success">
                     <i className="fa fa-check"></i>
@@ -181,16 +179,16 @@ class ScreeningForm extends React.Component {
         this.toggleVenuesHelper();
     }
 
-    onUsersChange(e) {
-        fetch(`/api/users/?name=${e.target.value}`)
+    onFriendsChange(e) {
+        fetch(`/api/friends/?name=${e.target.value}`)
             .then(res => res.json())
-            .then(users => {
+            .then(friends => {
                 this.setState({
-                    usersList: users
+                    friendsList: friends
                 }, function () {
-                    if (! this.state.showHelpers.Users) {
+                    if (! this.state.showHelpers.Friends) {
                         let showHelpers = this.state.showHelpers;
-                        showHelpers.Users = true;
+                        showHelpers.Friends = true;
                         this.setState({
                             showHelpers: showHelpers
                         });
@@ -198,81 +196,86 @@ class ScreeningForm extends React.Component {
                 });
             });
 
-        this.setState({ userInput: e.target.value });
+        this.setState({ friendInput: e.target.value });
     }
 
-    toggleUsersHelper() {
+    toggleFriendsHelper() {
         let showHelpers = this.state.showHelpers;
-        showHelpers.Users = (! this.state.showHelpers.Users);
+        showHelpers.Friends = (! this.state.showHelpers.Friends);
         this.setState({showHelpers: showHelpers});
     }
 
-    toggleNewUserButton() {
-        if (this.state.userInput.length >= 1) {
+    toggleNewFriendButton() {
+        if (this.state.friendInput.length >= 1) {
             return (
                 <button
                     className="list-group-item list-group-item-action"
-                    onClick={(e) => this.selectUser({ name: this.state.userInput }, e)}
+                    onClick={(e) => this.selectFriend({ name: this.state.friendInput }, e)}
                 >
-                    Add new friend: { this.state.userInput }
+                    Add new friend: { this.state.friendInput }
                 </button>
             );
         }
     }
 
-    renderUsersHelper() {
+    renderFriendsHelper() {
         return (
             <div className="list-group">
                 {
-                    this.state.usersList.map((user, i) => {
+                    this.state.friendsList.map((friend, i) => {
                         return (
                             <button
                                 className="list-group-item list-group-item-action"
                                 key={i}
-                                onClick={ (e) => this.selectUser(user, e) }
+                                onClick={ (e) => this.selectFriend(friend, e) }
                             >
-                                { user.name }
+                                { friend.name }
                             </button>
                         )
                     })
                 }
-                { this.toggleNewUserButton() }
+                { this.toggleNewFriendButton() }
                 <button
                     className="list-group-item list-group-item-action text-center"
-                    onClick={ this.toggleUsersHelper }
+                    onClick={ this.toggleFriendsHelper }
                 ><small>close</small></button>
             </div>
         );
     }
 
-    selectUser(user, e) {
+    selectFriend(friend, e) {
         e.preventDefault();
 
-        let selectedUsers = this.state.selectedUsers;
-        let selectedUser = {
-            id: user._id,
-            name: user.name
+        let selectedFriends = this.state.selectedFriends;
+        let selectedFriend = {
+            id: friend._id,
+            name: friend.name
         };
 
-        selectedUsers.push(selectedUser);
+        selectedFriends.push(selectedFriend);
 
         this.setState({
-            selectedUsers: selectedUsers,
-            userInput: ""
+            selectedFriends: selectedFriends,
+            friendInput: ""
         });
 
-        this.toggleUsersHelper();
+        this.toggleFriendsHelper();
     }
 
-    renderSelectedUsers() {
+    renderSelectedFriends() {
         return (
             <div>
                 <ul className="list-inline">
                     {
-                        this.state.selectedUsers.map((user, i) => {
+                        this.state.selectedFriends.map((friend, i) => {
                             return (
                                 <li className="list-inline-item" key={ i }>
-                                    { user.name } <button>x</button>
+                                    <button className="btn btn-danger btn-sm"
+                                            type="button"
+                                            onClick={ () => this.deselectFriend(i) }
+                                    >
+                                        { friend.name } <i className="fa fa-times"></i>
+                                </button>
                                 </li>
                             );
                         })
@@ -280,6 +283,12 @@ class ScreeningForm extends React.Component {
                 </ul>
             </div>
         );
+    }
+
+    deselectFriend(key) {
+        let selectedFriends = this.state.selectedFriends;
+        selectedFriends.splice(key, 1);
+        this.setState({ selectedFriends: selectedFriends });
     }
 
     onSaveScreening(e) {
@@ -303,14 +312,14 @@ class ScreeningForm extends React.Component {
         let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
 
-        let userIds = this.state.selectedUsers.map(user => {
-            return user.id;
+        let friendIds = this.state.selectedFriends.map(friend => {
+            return friend.id;
         });
 
         let screening = {
             date: dateTimestamp,
             venue: this.state.selectedVenue.id,
-            users: userIds
+            friends: friendIds
         };
 
         fetch(`/api/films/${this.props.filmId}/screening`, {
@@ -321,7 +330,7 @@ class ScreeningForm extends React.Component {
             .then(() => {
                 this.setState({
                     selectedVenue: {},
-                    selectedUsers: {}
+                    selectedFriends: {}
                 }, this.props.onRefresh);
             });
     }

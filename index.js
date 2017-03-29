@@ -19,9 +19,10 @@ mongoose.connect('mongodb://localhost/flimsy');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-app.use('/api/films', require('./api/films'));
 app.use('/api/users', require('./api/users'));
+app.use('/api/films', require('./api/films'));
 app.use('/api/venues', require('./api/venues'));
+app.use('/api/friends', require('./api/friends'));
 
 app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 

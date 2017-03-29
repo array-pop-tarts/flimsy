@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 
 var Film = require('./model');
+var Friend = require('../friends/model');
 
 exports.index = function (req, res) {
     let query = {};
@@ -14,8 +15,8 @@ exports.index = function (req, res) {
 
     Film.find(query)
         .populate([
-            { path: "screenings.venue", model: "Venue" },
-            { path: "screenings.users", model: "User" }
+            { path: "screenings.venue", model: "Venue"},
+            { path: "screenings.friends", model: "Friend"}
         ])
         .then(films => res.send(films))
         .catch(err => res.send(err));
@@ -60,7 +61,7 @@ exports.createScreening = function (req, res) {
             film.screenings.push({
                 date: req.body.date,
                 venue: req.body.venue,
-                users: req.body.users
+                friends: req.body.friends
             });
             film.save()
                 .then((film) => {
