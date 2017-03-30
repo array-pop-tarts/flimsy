@@ -317,12 +317,14 @@ class ScreeningForm extends React.Component {
         });
 
         let screening = {
+            user: "58d1d0988f770b17c8b5126d", // Barbara (req.user)
+            film: this.props.filmId,
             date: dateTimestamp,
             venue: this.state.selectedVenue.id,
             friends: friendIds
         };
 
-        fetch(`/api/films/${this.props.filmId}/screening`, {
+        fetch('/api/screenings', {
             method: 'POST',
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(screening)

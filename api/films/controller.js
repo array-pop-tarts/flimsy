@@ -63,35 +63,6 @@ exports.update = function (req, res) {
         });
 };
 
-exports.createScreening = function (req, res) {
-    Film.findById(req.params.id)
-        .then((film) => {
-
-            let timestamp = new Date(req.body.date);
-            let screeningYear = timestamp.getFullYear();
-            if (!(film.hasOwnProperty('screened')) || film.screened > screeningYear)
-                film.screened = screeningYear;
-
-            film.screenings.push({
-                date: req.body.date,
-                venue: req.body.venue,
-                friends: req.body.friends
-            });
-            film.save()
-                .then((film) => {
-                    res.send(film);
-                })
-                .catch((err) => {
-                    res.status(422);
-                    res.send(err);
-                });
-        })
-        .catch((err) => {
-            res.status(404);
-            res.send(err.message)
-        });
-};
-
 exports.createMedium = function (req, res) {
     Film.findById(req.params.id)
         .then((film) => {
