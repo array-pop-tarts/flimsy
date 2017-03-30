@@ -1,5 +1,4 @@
 /**
- *
  * Author: Barbara Goss
  * Created: 2017-03-28
  */

@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/films', require('./api/films'));
+app.use('/api/screenings', require('./api/screenings'));
 app.use('/api/venues', require('./api/venues'));
 app.use('/api/friends', require('./api/friends'));
 

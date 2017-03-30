@@ -3,10 +3,9 @@
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
-var mongoose = require('mongoose');
 
-var Film = require('./model');
-var Friend = require('../friends/model');
+let Film = require('./model');
+let Screening = require('../screenings/model');
 
 exports.index = function (req, res) {
     let query = {};
@@ -14,10 +13,25 @@ exports.index = function (req, res) {
         query.title = { $regex: req.query.search, $options: 'i'};
 
     Film.find(query)
-        .populate([
-            { path: "screenings.venue", model: "Venue"},
-            { path: "screenings.friends", model: "Friend"}
-        ])
+        .populate({
+            path: "screenings",
+            model: "Screening",
+            populate: [
+                { path: "venue", model: "Venue" },
+                { path: "friends", model: "Friend" }
+            ]
+        })
+/*
+        .populate({
+            path: "screenings",
+            model: "Screening"
+        }).exec(films => {
+            Screening.populate(films.screenings, [
+                { path: "venue", model: "Venue" },
+                { path: "friends", model: "Friend" }
+            ])
+        })
+*/
         .then(films => res.send(films))
         .catch(err => res.send(err));
 };

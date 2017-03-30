@@ -1,15 +1,19 @@
 /**
- *
  * Author: Barbara Goss
- * Created: 2017-03-29
+ * Created: 2017-03-30
  */
+
 let mongoose = require('mongoose');
 
-module.exports = new mongoose.Schema({
+let Venue = require('../venues/model');
+let Friend = require('../friends/model');
+
+let ScreeningSchema = new mongoose.Schema({
     date: Number,
     venue: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Venue'
+        ref: 'Venue',
+        required: true
     },
     friends: {
         type: [mongoose.Schema.Types.ObjectId],
@@ -17,3 +21,5 @@ module.exports = new mongoose.Schema({
         default: []
     }
 });
+
+module.exports = mongoose.model('Screening', ScreeningSchema);

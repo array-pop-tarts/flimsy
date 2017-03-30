@@ -5,7 +5,7 @@
  */
 let mongoose = require('mongoose');
 
-var MediumSchema = new mongoose.Schema({
+let MediumSchema = new mongoose.Schema({
     type: {
         type: String,
         enum: ["BluRay", "DVD"]
@@ -13,15 +13,12 @@ var MediumSchema = new mongoose.Schema({
     acquired: Number
 });
 
-var Venue = require('../venues/model');
-var Friend = require('../friends/model');
+let Screening = require('../screenings/model');
 
-let ScreeningSchema = require('./screening_schema');
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
 
-var currentDate = new Date();
-var currentYear = currentDate.getFullYear();
-
-var FilmSchema = new mongoose.Schema({
+let FilmSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -45,7 +42,8 @@ var FilmSchema = new mongoose.Schema({
         default: []
     },
     screenings: {
-        type: [ScreeningSchema],
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Screening",
         default: []
     }
 });
