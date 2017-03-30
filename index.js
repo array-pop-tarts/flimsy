@@ -1,22 +1,23 @@
 /**
- *
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
-var express = require('express');
-var app = express();
+let express = require('express');
+let app = express();
 
-var webpack = require('webpack');
-var webpackMiddleware = require('webpack-dev-middleware');
+require('dotenv').config();
+
+let webpack = require('webpack');
+let webpackMiddleware = require('webpack-dev-middleware');
 
 app.use(webpackMiddleware(webpack(require('./webpack.config'))));
 
 app.use(express.static('public'));
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/flimsy');
+let mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_SERVER);
 
-var bodyParser = require('body-parser');
+let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.use('/api/users', require('./api/users'));
@@ -27,4 +28,4 @@ app.use('/api/friends', require('./api/friends'));
 
 app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);

@@ -1,6 +1,7 @@
 node_modules/**/*
-dist/**/*
 .idea/**/*
 prepros.cfg
-css/**/*
 db/*
+.env
+todo.txt
+scss/**/*
