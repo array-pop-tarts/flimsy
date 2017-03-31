@@ -30,3 +30,13 @@ exports.create = function (req, res) {
             res.send(err.message);
         });
 };
+
+exports.update = function (req, res) {
+    Venue.findById(req.params.id)
+        .then(venue => {
+            venue.name = req.body.name;
+            venue.save()
+                .then()
+                .catch(err => res.send(err));
+        });
+};

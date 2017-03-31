@@ -171,7 +171,7 @@ class ScreeningForm extends React.Component {
             name: venue.name
         };
         if (venue.hasOwnProperty('_id'))
-            selectedVenue.id = venue._id;
+            selectedVenue._id = venue._id;
 
         this.setState({
             selectedVenue: selectedVenue
@@ -247,10 +247,10 @@ class ScreeningForm extends React.Component {
         e.preventDefault();
 
         let selectedFriends = this.state.selectedFriends;
-        let selectedFriend = {
-            id: friend._id,
-            name: friend.name
-        };
+        let selectedFriend = {};
+        selectedFriend.name = friend.name;
+        if (friend.hasOwnProperty('_id'))
+            selectedFriend._id = friend._id;
 
         selectedFriends.push(selectedFriend);
 
@@ -294,34 +294,15 @@ class ScreeningForm extends React.Component {
     onSaveScreening(e) {
         e.preventDefault();
 
-        if (! this.state.selectedVenue.hasOwnProperty('id')) {
-            fetch('/api/venues', {
-                method: 'POST',
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify({ name: this.state.selectedVenue.name })
-            })
-                .then((venue) => {
-                    let selectedVenue = this.state.selectedVenue;
-                    selectedVenue.id = venue._id;
-                    this.setState({
-                        selectedVenue: selectedVenue
-                    });
-                });
-        }
-
         let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
 
-        let friendIds = this.state.selectedFriends.map(friend => {
-            return friend.id;
-        });
-
         let screening = {
-            user: "58d1d0988f770b17c8b5126d", // Barbara (req.user)
+            //user: req.user,
             film: this.props.filmId,
             date: dateTimestamp,
-            venue: this.state.selectedVenue.id,
-            friends: friendIds
+            venue: this.state.selectedVenue,
+            friends: this.state.selectedFriends
         };
 
         fetch('/api/screenings', {

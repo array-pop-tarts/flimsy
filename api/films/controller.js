@@ -6,6 +6,7 @@
 
 let Film = require('./model');
 let Screening = require('../screenings/model');
+let Friend = require('../friends/model');
 
 exports.index = function (req, res) {
     let query = {};
@@ -17,21 +18,10 @@ exports.index = function (req, res) {
             path: "screenings",
             model: "Screening",
             populate: [
-                { path: "venue", model: "Venue" },
-                { path: "friends", model: "Friend" }
+                {path: "venue", model: "Venue"},
+                {path: "friends", model: "Friend"}
             ]
         })
-/*
-        .populate({
-            path: "screenings",
-            model: "Screening"
-        }).exec(films => {
-            Screening.populate(films.screenings, [
-                { path: "venue", model: "Venue" },
-                { path: "friends", model: "Friend" }
-            ])
-        })
-*/
         .then(films => res.send(films))
         .catch(err => res.send(err));
 };
