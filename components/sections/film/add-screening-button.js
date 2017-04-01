@@ -9,7 +9,7 @@ class AddScreeningButton extends React.Component {
     render() {
         return (
             <div className="text-center">
-                <button className="btn btn-primary btn-sm m-3"
+                <button className="btn btn-primary btn-sm"
                         aria-label="Add More Screenings for this Film"
                         onClick={ this.props.onToggleForm() }
                 >

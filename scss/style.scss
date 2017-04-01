@@ -288,13 +288,6 @@ ul {
           margin: 0;
       }
   }
-
-    .add-screening {
-        button[type=submit] {
-            width: 100%;
-            margin: 0.5rem 0;
-        }
-    }
 }
 
 .film-media {
@@ -302,10 +295,25 @@ ul {
 }
 
 .available-media {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    ul {
+        margin: 0;
+
+        li {
+            line-height: 1;
+            border: 1px solid $gray-dark;
+            padding: 0.25rem 0.5rem;
+            border-radius: $border-radius;
+        }
+
+        & + button {
+            margin-left: 1rem;
+        }
+    }
 }
 
 .screening-friends {
@@ -316,6 +324,14 @@ ul {
 .screening-actions {
     text-align: right;
 }
+
+.add-screening, .add-media {
+    button[type=submit] {
+        width: 100%;
+        margin: 0.5rem 0 0;
+    }
+}
+
 
 /* RESPONSIVE MASONRY */
 

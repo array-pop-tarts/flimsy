@@ -13,13 +13,13 @@ class AvailableMedia extends React.Component
     render()
     {
         return (
-            <span>
+            <ul className="list-inline">
                 {
                     this.props.mediaInfo.map((medium, i) => {
                         return <Medium medium={ medium } key={ i }/>
                     })
                 }
-            </span>
+            </ul>
         );
     }
 }

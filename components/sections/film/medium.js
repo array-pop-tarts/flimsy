@@ -8,9 +8,9 @@ import React from 'react';
 class Medium extends React.Component {
     render() {
         return (
-            <a className="btn btn-sm btn-secondary">
+            <li className="list-inline-item">
                 { this.props.medium.type }
-            </a>
+            </li>
         );
     }
 }

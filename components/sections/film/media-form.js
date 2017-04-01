@@ -5,11 +5,11 @@
  */
  
 import React from 'react';
-import firebase from 'firebase';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
 import 'react-datepicker/dist/react-datepicker.css';
+
+import FormHeading from './form-heading';
 
 class MediaForm extends React.Component {
 
@@ -29,6 +29,7 @@ class MediaForm extends React.Component {
 
         return (
             <form className="add-media" onSubmit={ (e) => this.onSaveMedia(e) }>
+                <FormHeading formType="Media" onCloseForm={ this.props.onCloseForm }/>
                 <div className="row">
                     <div className="col">
                         <DatePicker selected={ this.state.date }
@@ -42,15 +43,15 @@ class MediaForm extends React.Component {
                                 value={this.state.type}
                                 onChange={ this.onTypeChange }
                         >
-                            <option value="">--</option>
+                            <option value="">- What kind? -</option>
                             <option value="DVD">DVD</option>
                             <option value="BluRay">BluRay</option>
                         </select>
                     </div>
-                    <button className="btn btn-sm btn-success">
-                        <i className="fa fa-check"></i>
-                    </button>
                 </div>
+                <button className="btn btn-sm btn-success" type="submit">
+                    <i className="fa fa-check"></i> Save
+                </button>
             </form>
         );
     }
@@ -80,7 +81,7 @@ class MediaForm extends React.Component {
             },
             body: JSON.stringify(medium)
         })
-            .then(() => { this.props.onRefresh() });
+            .then(() => { this.props.onCloseForm() });
     }
 }
 

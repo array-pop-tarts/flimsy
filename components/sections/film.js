@@ -39,6 +39,7 @@ class Film extends React.Component {
         this.renderScreenings = this.renderScreenings.bind(this);
         this.renderAddScreeningButton = this.renderAddScreeningButton.bind(this);
         this.renderMedia = this.renderMedia.bind(this);
+        this.renderAddMediaButton = this.renderAddMediaButton.bind(this);
 
         this.highlightRating = this.highlightRating.bind(this);
         this.changeRating = this.changeRating.bind(this);
@@ -86,11 +87,14 @@ class Film extends React.Component {
                     </div>
                     <div className="film-screenings">
                         { this.renderScreenings() }
-                        { this.state.showForms.Screening ?
-                            <ScreeningForm filmId={this.props.film._id}
-                                           onCloseForm={ this.toggleScreeningForm }
-                                           onRefresh={ this.props.onRefresh } /> :
-                            null }
+                        <div className="card-block">
+                            { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
+                            { this.state.showForms.Screening ?
+                                <ScreeningForm filmId={this.props.film._id}
+                                               onCloseForm={ this.toggleScreeningForm }
+                                               onRefresh={ this.props.onRefresh } /> :
+                                null }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,18 +136,8 @@ class Film extends React.Component {
     renderScreenings() {
         if (this.props.film.hasOwnProperty('screenings') && this.props.film.screenings.length) {
             return (
-                <div>
-                    <Screenings screeningsInfo={ this.props.film.screenings } />
-                    { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
-                </div>
+                <Screenings screeningsInfo={ this.props.film.screenings } />
             )
-        }
-        else {
-            return (
-                <div>
-                    { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
-                </div>
-            );
         }
     }
 
@@ -161,22 +155,25 @@ class Film extends React.Component {
             return (
                 <div className="available-media">
                     <AvailableMedia mediaInfo={ this.props.film.media } />
-                    <AddMediaButton
-                        expanded={false}
-                        onToggleForm={ (e) => this.toggleMediaForm }
-                    />
+                    { this.state.showFormButtons.Media ? this.renderAddMediaButton(false) : null }
                 </div>
             )
         }
         else
             return (
                 <div className="text-center">
-                    <AddMediaButton
-                        expanded={true}
-                        onToggleForm={ (e) => this.toggleMediaForm }
-                    />
+                    { this.state.showFormButtons.Media ? this.renderAddMediaButton(true) : null }
                 </div>
             );
+    }
+
+    renderAddMediaButton(expanded) {
+        return (
+            <AddMediaButton
+                expanded={expanded}
+                onToggleForm={ (e) => this.toggleMediaForm }
+            />
+        );
     }
 
     highlightRating(rating) {
@@ -202,7 +199,12 @@ class Film extends React.Component {
     toggleMediaForm() {
         let showForms = this.state.showForms;
         showForms.Media = (!this.state.showForms.Media);
-        this.setState({showForms: showForms});
+        let showFormButtons = this.state.showFormButtons;
+        showFormButtons.Media = (!this.state.showFormButtons.Media);
+        this.setState({
+            showForms: showForms,
+            showFormButtons: showFormButtons
+        });
     }
 
     addToMyFilms() {

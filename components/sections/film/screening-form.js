@@ -7,6 +7,8 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
+import FormHeading from './form-heading';
+
 class ScreeningForm extends React.Component {
 
     constructor() {
@@ -54,19 +56,8 @@ class ScreeningForm extends React.Component {
 
     render() {
         return (
-            <form className="add-screening m-2" onSubmit={ (e) => this.onSaveScreening(e)}>
-                <div className="row">
-                    <div className="col-18">
-                        <h3>Add New Screening</h3>
-                    </div>
-                    <div className="col-6 screening-actions">
-                        <button type="button"
-                                className="button-transparent"
-                                onClick={ this.props.onCloseForm }>
-                            cancel
-                        </button>
-                    </div>
-                </div>
+            <form className="add-screening" onSubmit={ (e) => this.onSaveScreening(e)}>
+                <FormHeading formType="Screening" onCloseForm={ this.props.onCloseForm }/>
                 <div className="row">
                     <div className="col">
                         <DatePicker selected={ this.state.selectedDate }

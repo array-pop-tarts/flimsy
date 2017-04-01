@@ -7595,9 +7595,6 @@ ul {
     .film-screenings li > .row {
       width: 100%;
       margin: 0; }
-  .film-screenings .add-screening button[type=submit] {
-    width: 100%;
-    margin: 0.5rem 0; }
 
 .film-media {
   background-color: #80628b; }
@@ -7607,6 +7604,15 @@ ul {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap; }
+  .available-media ul {
+    margin: 0; }
+    .available-media ul li {
+      line-height: 1;
+      border: 1px solid #333333;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem; }
+    .available-media ul + button {
+      margin-left: 1rem; }
 
 .screening-friends {
   font-size: smaller;
@@ -7614,6 +7620,10 @@ ul {
 
 .screening-actions {
   text-align: right; }
+
+.add-screening button[type=submit], .add-media button[type=submit] {
+  width: 100%;
+  margin: 0.5rem 0 0; }
 
 /* RESPONSIVE MASONRY */
 @media only screen and (min-width: 576px) {
