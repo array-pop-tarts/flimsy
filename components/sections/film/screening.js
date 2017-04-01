@@ -31,12 +31,12 @@ class Screening extends React.Component {
                         </div>
                     </div>
                     <div className="screening-actions col-4">
-                        <button className="btn btn-sm btn-outline-warning"
+                        <button className="button-transparent"
                                 title="Edit"
                                 onClick={ this.editScreening }>
                             <i className="fa fa-gear"></i>
                         </button>
-                        <button className="btn btn-sm btn-outline-warning"
+                        <button className="button-transparent"
                                 title="Delete"
                                 onClick={ this.deleteScreening }>
                             <i className="fa fa-times"></i>

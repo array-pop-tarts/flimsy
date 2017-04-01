@@ -7530,6 +7530,16 @@ input[type=number] {
 button {
   cursor: pointer; }
 
+.button-transparent {
+  background: transparent;
+  border: none;
+  color: #333333;
+  padding: 0.25rem;
+  font-size: small; }
+  .button-transparent:hover {
+    background: none;
+    color: #55595c; }
+
 /* LISTS */
 ul {
   list-style: none; }
@@ -7585,14 +7595,9 @@ ul {
     .film-screenings li > .row {
       width: 100%;
       margin: 0; }
-    .film-screenings li .screening-actions .btn-outline-warning {
-      border: none;
-      color: #333333;
-      padding-left: 0.25rem;
-      padding-right: 0.25rem; }
-      .film-screenings li .screening-actions .btn-outline-warning:hover {
-        background: none;
-        color: #55595c; }
+  .film-screenings .add-screening button[type=submit] {
+    width: 100%;
+    margin: 0.5rem 0; }
 
 .film-media {
   background-color: #80628b; }
@@ -7606,6 +7611,9 @@ ul {
 .screening-friends {
   font-size: smaller;
   padding-left: 1rem; }
+
+.screening-actions {
+  text-align: right; }
 
 /* RESPONSIVE MASONRY */
 @media only screen and (min-width: 576px) {

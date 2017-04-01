@@ -191,6 +191,19 @@ button {
     cursor: pointer;
 }
 
+.button-transparent {
+    background: transparent;
+    border: none;
+    color: $gray-dark;
+    padding: 0.25rem;
+    font-size: small;
+
+    &:hover {
+        background: none;
+        color: $gray;
+    }
+}
+
 /* LISTS */
 
 ul {
@@ -274,21 +287,14 @@ ul {
           width: 100%;
           margin: 0;
       }
-
-      .screening-actions {
-          .btn-outline-warning {
-              border: none;
-              color: $gray-dark;
-              padding-left: 0.25rem;
-              padding-right: 0.25rem;
-
-              &:hover {
-                  background: none;
-                  color: $gray;
-              }
-          }
-      }
   }
+
+    .add-screening {
+        button[type=submit] {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+    }
 }
 
 .film-media {
@@ -305,6 +311,10 @@ ul {
 .screening-friends {
   font-size: smaller;
   padding-left: 1rem;
+}
+
+.screening-actions {
+    text-align: right;
 }
 
 /* RESPONSIVE MASONRY */

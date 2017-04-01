@@ -56,7 +56,19 @@ class ScreeningForm extends React.Component {
         return (
             <form className="add-screening m-2" onSubmit={ (e) => this.onSaveScreening(e)}>
                 <div className="row">
-                    <div className="col has-danger">
+                    <div className="col-18">
+                        <h3>Add New Screening</h3>
+                    </div>
+                    <div className="col-6 screening-actions">
+                        <button type="button"
+                                className="button-transparent"
+                                onClick={ this.props.onCloseForm }>
+                            cancel
+                        </button>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
                         <DatePicker selected={ this.state.selectedDate }
                                     className="form-control form-control-sm"
                                     dateFormat="YYYY-MM-DD"
@@ -83,8 +95,8 @@ class ScreeningForm extends React.Component {
                     />
                     { this.state.showHelpers.Friends ? this.renderFriendsHelper() : null}
                 </div>
-                <button className="btn btn-sm btn-success">
-                    <i className="fa fa-check"></i>
+                <button className="btn btn-sm btn-success" type="submit">
+                    <i className="fa fa-check"></i> Save
                 </button>
             </form>
         );
@@ -314,7 +326,7 @@ class ScreeningForm extends React.Component {
                 this.setState({
                     selectedVenue: {},
                     selectedFriends: {}
-                }, this.props.onRefresh);
+                }, this.props.onCloseForm);
             });
     }
 }

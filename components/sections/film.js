@@ -27,12 +27,17 @@ class Film extends React.Component {
                 Screening: false,
                 Media: false
             },
+            showFormButtons: {
+                Screening: true,
+                Media: true
+            },
             rating: null
         };
 
         this.renderPoster = this.renderPoster.bind(this);
         this.renderRating = this.renderRating.bind(this);
         this.renderScreenings = this.renderScreenings.bind(this);
+        this.renderAddScreeningButton = this.renderAddScreeningButton.bind(this);
         this.renderMedia = this.renderMedia.bind(this);
 
         this.highlightRating = this.highlightRating.bind(this);
@@ -75,6 +80,7 @@ class Film extends React.Component {
                         { this.renderMedia() }
                         { this.state.showForms.Media ?
                             <MediaForm filmId={this.props.film._id}
+                                       onCloseForm={ this.toggleMediaForm }
                                        onRefresh={ this.props.onRefresh } /> :
                             null }
                     </div>
@@ -82,6 +88,7 @@ class Film extends React.Component {
                         { this.renderScreenings() }
                         { this.state.showForms.Screening ?
                             <ScreeningForm filmId={this.props.film._id}
+                                           onCloseForm={ this.toggleScreeningForm }
                                            onRefresh={ this.props.onRefresh } /> :
                             null }
                     </div>
@@ -127,21 +134,26 @@ class Film extends React.Component {
             return (
                 <div>
                     <Screenings screeningsInfo={ this.props.film.screenings } />
-                    <AddScreeningButton
-                        expanded={true}
-                        onToggleForm={ (e) => this.toggleScreeningForm }
-                    />
+                    { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
                 </div>
             )
         }
         else {
             return (
-                <AddScreeningButton
-                    expanded={true}
-                    onToggleForm={ (e) => this.toggleScreeningForm }
-                />
+                <div>
+                    { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
+                </div>
             );
         }
+    }
+
+    renderAddScreeningButton() {
+        return (
+            <AddScreeningButton
+                expanded={true}
+                onToggleForm={ (e) => this.toggleScreeningForm }
+            />
+        );
     }
 
     renderMedia() {
@@ -180,7 +192,12 @@ class Film extends React.Component {
     toggleScreeningForm() {
         let showForms = this.state.showForms;
         showForms.Screening = (!this.state.showForms.Screening);
-        this.setState({showForms: showForms});
+        let showFormButtons = this.state.showFormButtons;
+        showFormButtons.Screening = (!this.state.showFormButtons.Screening);
+        this.setState({
+            showForms: showForms,
+            showFormButtons: showFormButtons
+        });
     }
     toggleMediaForm() {
         let showForms = this.state.showForms;
