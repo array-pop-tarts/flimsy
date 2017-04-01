@@ -217,15 +217,17 @@ ul {
 .card.film-card {
     margin-bottom: 1rem;
     display: block;
+    background: transparent;
 }
 
 /* FILM CARDS */
 
-.film-form-placeholder {
-    height: 200px;
-    background: $teal;
-    cursor: pointer;
-    text-align: center;
+.film-poster {
+    padding: 0;
+
+    & > img {
+        width: 100%;
+    }
 }
 
 .card-header {
@@ -265,6 +267,27 @@ ul {
 
   li {
     background-color: transparent;
+      padding-right: 0;
+      padding-left: 0;
+
+      & > .row {
+          width: 100%;
+          margin: 0;
+      }
+
+      .screening-actions {
+          .btn-outline-warning {
+              border: none;
+              color: $gray-dark;
+              padding-left: 0.25rem;
+              padding-right: 0.25rem;
+
+              &:hover {
+                  background: none;
+                  color: $gray;
+              }
+          }
+      }
   }
 }
 

@@ -31,6 +31,7 @@ let FilmSchema = new mongoose.Schema({
         max: currentYear
     },
     imdbId: String,
+    poster: String,
     screened: Number,
     rating: {
         type: Number,

@@ -107,10 +107,12 @@ class App extends React.Component {
                     let isMyFilm = false;
                     if (myFilms.length > 0 && myFilms.find(myFilm => myFilm.imdbId == film.imdbID))
                         isMyFilm = true;
+                    let poster = (film.Poster == "N/A" ? "" : film.Poster);
                     return {
                         title: film.Title,
                         released: film.Year,
                         imdbId: film.imdbID,
+                        poster: poster,
                         isMyFilm: isMyFilm
                     };
                 });

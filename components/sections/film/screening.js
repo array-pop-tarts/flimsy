@@ -22,24 +22,26 @@ class Screening extends React.Component {
 
     render() {
         return (
-            <li className="list-group-item  justify-content-between">
-                <div>
-                    { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
-                </div>
-                <div className="screening-friends">
-                    { this.renderFriends(this.props.screening.friends) }
-                </div>
-                <div className="screening-actions">
-                    <button className="btn btn-sm btn-outline-warning"
-                            title="Edit"
-                            onClick={ this.editScreening }>
-                        <i className="fa fa-gear"></i>
-                    </button>
-                    <button className="btn btn-sm btn-outline-warning"
-                            title="Delete"
-                            onClick={ this.deleteScreening }>
-                        <i className="fa fa-times"></i>
-                    </button>
+            <li className="list-group-item">
+                <div className="row">
+                    <div className="screening-details col-20">
+                        { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
+                        <div className="screening-friends">
+                            { this.renderFriends(this.props.screening.friends) }
+                        </div>
+                    </div>
+                    <div className="screening-actions col-4">
+                        <button className="btn btn-sm btn-outline-warning"
+                                title="Edit"
+                                onClick={ this.editScreening }>
+                            <i className="fa fa-gear"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-warning"
+                                title="Delete"
+                                onClick={ this.deleteScreening }>
+                            <i className="fa fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </li>
         );

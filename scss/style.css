@@ -7548,14 +7548,14 @@ ul {
 
 .card.film-card {
   margin-bottom: 1rem;
-  display: block; }
+  display: block;
+  background: transparent; }
 
 /* FILM CARDS */
-.film-form-placeholder {
-  height: 200px;
-  background: #16a79d;
-  cursor: pointer;
-  text-align: center; }
+.film-poster {
+  padding: 0; }
+  .film-poster > img {
+    width: 100%; }
 
 .card-header {
   background-color: #333333;
@@ -7579,7 +7579,20 @@ ul {
 .film-screenings {
   background-color: #F5AC43; }
   .film-screenings li {
-    background-color: transparent; }
+    background-color: transparent;
+    padding-right: 0;
+    padding-left: 0; }
+    .film-screenings li > .row {
+      width: 100%;
+      margin: 0; }
+    .film-screenings li .screening-actions .btn-outline-warning {
+      border: none;
+      color: #333333;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem; }
+      .film-screenings li .screening-actions .btn-outline-warning:hover {
+        background: none;
+        color: #55595c; }
 
 .film-media {
   background-color: #80628b; }

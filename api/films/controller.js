@@ -37,6 +37,7 @@ exports.create = function (req, res) {
     film.title = req.body.title;
     film.released = req.body.released;
     film.imdbId = req.body.imdbId;
+    film.poster = req.body.poster;
     film.save()
         .then(() => res.send(film))
         .catch(err => res.send(err));

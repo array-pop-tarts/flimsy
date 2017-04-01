@@ -30,6 +30,7 @@ class Film extends React.Component {
             rating: null
         };
 
+        this.renderPoster = this.renderPoster.bind(this);
         this.renderRating = this.renderRating.bind(this);
         this.renderScreenings = this.renderScreenings.bind(this);
         this.renderMedia = this.renderMedia.bind(this);
@@ -57,6 +58,7 @@ class Film extends React.Component {
         return (
             <div className="brick">
                 <div className="card film-card">
+                    { this.renderPoster() }
                     <div className="card-header">
                         <FilmInfo title={this.props.film.title}
                                   translation={this.props.film.translation}
@@ -86,6 +88,16 @@ class Film extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    renderPoster() {
+        if (this.props.film.poster) {
+            return (
+                <div className="card-block film-poster">
+                    <img src={ this.props.film.poster } />
+                </div>
+            );
+        }
     }
 
     renderRating(rating) {
