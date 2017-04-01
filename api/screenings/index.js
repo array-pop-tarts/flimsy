@@ -11,8 +11,7 @@ let controller = require('./controller');
 router.get('/', controller.index);
 
 router.post('/', controller.create);
-/*
-router.destroy('/:id', controller.destroy);
-*/
+router.put('/:id', controller.update);
+router.delete('/:id', controller.destroy);
 
 module.exports = router;

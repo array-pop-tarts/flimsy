@@ -32,7 +32,10 @@ let FilmSchema = new mongoose.Schema({
     },
     imdbId: String,
     poster: String,
-    screened: Number,
+    screened: {
+        type: Number,
+        default: null
+    },
     rating: {
         type: Number,
         min: 1,

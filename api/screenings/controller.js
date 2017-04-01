@@ -30,14 +30,6 @@ exports.create = function (req, res) {
         newVenue.save()
             .then()
             .catch(err => res.send(err));
-
-/*
-        fetch(`/api/venues/${newVenue._id}`, {
-            method: 'PUT',
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(venue)
-        });
-*/
     }
 
     let friends = req.body.friends;
@@ -51,14 +43,6 @@ exports.create = function (req, res) {
                 newFriend.save()
                     .then()
                     .catch(err => res.send(err));
-
-                /*
-                 fetch(`/api/friends/${newFriend._id}`, {
-                 method: 'PUT',
-                 headers: { "Content-type": "application/json" },
-                 body: JSON.stringify(friend)
-                 });
-                 */
             }
         });
     }
@@ -83,12 +67,32 @@ exports.create = function (req, res) {
         .catch(err => res.send(err));
 };
 
+exports.update = function (req, res) {
 
+};
 
-/*
 exports.destroy = function (req, res) {
     Screening.findById(req.params.id)
-        .then(screening => {
-
+        .then((screening) => {
+            screening.remove();
+            Film.findById(screening.film)
+                .populate({path: "screenings", model: "Screening"})
+                .then(film  => {
+                    film.screenings.remove(screening._id);
+                    if (film.screenings.length > 0) {
+                        let minTimestamp = Math.min.apply(Math, film.screenings.map(screening => screening.date));
+                        let minDate = new Date(minTimestamp);
+                        let screenedYear = minDate.getFullYear();
+                        film.screened = screenedYear;
+                    }
+                    else {
+                        film.screened = null;
+                    }
+                    film.save()
+                        .then(() => res.send(200))
+                        .catch(err => res.send(err));
+                })
+                .catch(err => res.send(err));
         })
-}*/
+        .catch(err => res.send(err));
+};

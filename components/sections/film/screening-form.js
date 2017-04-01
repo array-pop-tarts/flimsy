@@ -19,9 +19,9 @@ class ScreeningForm extends React.Component {
 
             selectedDate: moment(),
             selectedVenue: {},
-            friendInput: "",
             selectedFriends: [],
 
+            friendInput: "",
             newVenue: {},
             newFriends: [],
 
@@ -297,6 +297,9 @@ class ScreeningForm extends React.Component {
     onSaveScreening(e) {
         e.preventDefault();
 
+        let url = '/api/screenings';
+        let method = 'POST';
+
         let selectedDate = this.state.selectedDate;
         let dateTimestamp = selectedDate._d.getTime();
 
@@ -308,8 +311,8 @@ class ScreeningForm extends React.Component {
             friends: this.state.selectedFriends
         };
 
-        fetch('/api/screenings', {
-            method: 'POST',
+        fetch(url, {
+            method: method,
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(screening)
         })

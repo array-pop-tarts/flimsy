@@ -25,9 +25,9 @@ class Screening extends React.Component {
             <li className="list-group-item">
                 <div className="row">
                     <div className="screening-details col-20">
-                        { this.renderDate() } @ <Venue venue={this.props.screening.venue } />
+                        { this.renderDate() } @ <Venue venue={ this.props.screening.venue } />
                         <div className="screening-friends">
-                            { this.renderFriends(this.props.screening.friends) }
+                            { this.renderFriends() }
                         </div>
                     </div>
                     <div className="screening-actions col-4">
@@ -51,9 +51,9 @@ class Screening extends React.Component {
         return moment(this.props.screening.date).format('YYYY-MM-DD');
     }
 
-    renderFriends(friends) {
-        if (friends.length > 0) {
-            let names = friends.map(friend => {
+    renderFriends() {
+        if (this.props.screening.friends.length > 0) {
+            let names = this.props.screening.friends.map(friend => {
                 return friend.name;
             });
             return names.join(', ');
@@ -66,7 +66,12 @@ class Screening extends React.Component {
     }
 
     deleteScreening() {
-
+        fetch(`/api/screenings/${this.props.screening._id}`, {
+            method: 'DELETE'
+        })
+            .then(() => [
+                // refresh
+            ]);
     }
 
 }
