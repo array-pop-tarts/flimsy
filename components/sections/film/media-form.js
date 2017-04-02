@@ -16,8 +16,10 @@ class MediaForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            date: moment(),
-            type: ""
+            medium: {
+                acquired: moment(),
+                type: ""
+            }
         };
 
         this.onDateChange = this.onDateChange.bind(this);
@@ -32,7 +34,7 @@ class MediaForm extends React.Component {
                 <FormHeading formType="Media" onCloseForm={ this.props.onCloseForm }/>
                 <div className="row">
                     <div className="col">
-                        <DatePicker selected={ this.state.date }
+                        <DatePicker selected={ this.state.medium.acquired }
                                     className="form-control form-control-sm"
                                     dateFormat="YYYY-MM-DD"
                                     onChange={ this.onDateChange }
@@ -40,7 +42,7 @@ class MediaForm extends React.Component {
                     </div>
                     <div className="col">
                         <select className="form-control form-control-sm"
-                                value={this.state.type}
+                                value={this.state.medium.type}
                                 onChange={ this.onTypeChange }
                         >
                             <option value="">- What kind? -</option>
@@ -56,32 +58,64 @@ class MediaForm extends React.Component {
         );
     }
 
-    onDateChange(date) {
-        this.setState({ date: date });
+    onDateChange(acquired) {
+        let medium = this.state.medium;
+        medium.acquired = acquired;
+        this.setState({ medium: medium });
     }
 
     onTypeChange(e) {
-        this.setState({ type: e.target.value });
+        let medium = this.state.medium;
+        medium.type = e.target.value;
+        this.setState({ medium: medium });
     }
 
     onSaveMedia(e) {
         e.preventDefault();
-        let selectedDate = (this.state.date);
+
+        let selectedDate = (this.state.medium.acquired);
         let acquired = selectedDate._d.getTime();
 
-        const medium = {
+        let medium = {
             acquired: acquired,
-            type: this.state.type
+            type: this.state.medium.type
         };
 
-        fetch(`/api/films/${this.props.filmId}/medium`, {
-            method: 'POST',
+        let url = `/api/films/${this.props.filmId}/medium`;
+        let method = 'POST';
+
+        if (this.state.medium.hasOwnProperty('_id')) {
+            url = `/api/films/${this.props.filmId}/medium`;
+            method = 'PUT';
+            medium._id = this.state.medium._id;
+        }
+
+        fetch(url, {
+            method: method,
             headers: {
                 "Content-type": "application/json"
             },
             body: JSON.stringify(medium)
         })
-            .then(() => { this.props.onCloseForm() });
+            .then(() => {
+                this.setState({
+                    medium: {
+                        type: "",
+                        acquired: moment()
+                    }
+                }, this.props.onCloseForm)
+            });
+    }
+
+    componentDidMount() {
+        if (this.props.medium.hasOwnProperty('_id')) {
+
+            let medium = this.props.medium;
+            let timestamp = medium.acquired;
+            medium.acquired = moment(timestamp);
+
+            this.setState({medium: medium});
+        }
     }
 }
 

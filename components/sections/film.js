@@ -12,7 +12,7 @@ import Screenings from './film/screenings';
 import AddScreeningButton from './film/add-screening-button';
 import ScreeningForm from './film/screening-form';
 
-import AvailableMedia from './film/available_media';
+import Media from './film/media';
 import AddMediaButton from './film/add-media-button';
 import MediaForm from './film/media-form';
 
@@ -52,6 +52,8 @@ class Film extends React.Component {
         this.addToMyFilms = this.addToMyFilms.bind(this);
 
         this.editScreening = this.editScreening.bind(this);
+        this.editMedium = this.editMedium.bind(this);
+        this.deleteMedium = this.deleteMedium.bind(this);
     }
 
     render() {
@@ -85,6 +87,7 @@ class Film extends React.Component {
                         { this.renderMedia() }
                         { this.state.showForms.Media ?
                             <MediaForm filmId={this.props.film._id}
+                                       medium={ this.state.formMedium }
                                        onCloseForm={ this.toggleMediaForm }
                                        onRefresh={ this.props.onRefresh } /> :
                             null }
@@ -162,10 +165,14 @@ class Film extends React.Component {
         if (this.props.film.hasOwnProperty('media') && this.props.film.media.length) {
             return (
                 <div className="available-media">
-                    <AvailableMedia mediaInfo={ this.props.film.media } />
+                    <Media
+                        mediaInfo={ this.props.film.media }
+                        onEditMedium={medium => this.editMedium(medium)}
+                        onDeleteMedium={medium => this.deleteMedium(medium)}
+                    />
                     { this.state.showFormButtons.Media ? this.renderAddMediaButton(false) : null }
                 </div>
-            )
+            );
         }
         else
             return (
@@ -232,6 +239,34 @@ class Film extends React.Component {
         this.setState({
             formScreening: screening
         }, this.toggleScreeningForm);
+    }
+
+    editMedium(medium) {
+        this.setState({
+            formMedium: medium
+        }, this.toggleMediaForm);
+/*
+        let film = this.props.film;
+        film.media = film.media.filter(existing => {
+            if (existing._id == medium._id)
+                return medium;
+            else
+                return existing;
+        });
+*/
+    }
+
+    deleteMedium(medium) {
+        let film = this.props.film;
+        film.media = film.media.filter(existing => existing._id != medium._id);
+        fetch(`/api/films/${this.props.film._id}/media`, {
+            method: 'PUT',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(film)
+        })
+            .then(film => {
+                // refresh the omdb fetch?
+            });
     }
 
 }

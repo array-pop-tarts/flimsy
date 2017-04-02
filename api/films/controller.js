@@ -43,17 +43,6 @@ exports.create = function (req, res) {
         .catch(err => res.send(err));
 };
 
-exports.update = function (req, res) {
-    Film.findById(req.params.id)
-        .then((film) => {
-
-        })
-        .catch((err) => {
-            res.status(404);
-            res.send("Film not found")
-        });
-};
-
 exports.createMedium = function (req, res) {
     Film.findById(req.params.id)
         .then((film) => {
@@ -70,10 +59,40 @@ exports.createMedium = function (req, res) {
                     res.send(err);
                 });
         })
-        .catch((err) => {
-            res.status(404);
-            res.send(err.message)
-        });
+        .catch((err) => res.send(err));
+};
+
+exports.updateDeletedMedia = function (req, res) {
+    Film.findById(req.params.id)
+        .then((film) => {
+            film.media = req.body.media;
+            film.save()
+                .then(() => res.sendStatus(200))
+                .catch(err => res.send(err));
+        })
+        .catch((err) => res.send(err));
+};
+
+exports.updateMedium = function(req, res) {
+    Film.findById(req.params.id)
+        .then(film => {
+            let media = film.media.map(medium => {
+                if (medium._id == req.body._id)
+                    return {
+                        _id: req.body._id,
+                        type: req.body.type,
+                        acquired: req.body.acquired
+                    };
+                else {
+                    return medium;
+                }
+            });
+            film.media = media;
+            film.save()
+                .then(film => res.send(film))
+                .catch(err => res.send(err));
+        })
+        .catch(err => res.send(err));
 };
 
 exports.findByImdbIds = function (req, res) {
