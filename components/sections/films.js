@@ -30,7 +30,7 @@ class Films extends React.Component {
                             <Film film={ film }
                                   key={ i }
                                   i={ i }
-                                  //onRefresh={ this.refresh() }
+                                  onFilmUpdated={ this.props.onFilmUpdated }
                             />
                         );
                     })}

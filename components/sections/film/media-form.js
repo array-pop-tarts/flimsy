@@ -97,13 +97,19 @@ class MediaForm extends React.Component {
             },
             body: JSON.stringify(medium)
         })
-            .then(() => {
+            .then((res) => {
                 this.setState({
                     medium: {
                         type: "",
                         acquired: moment()
                     }
-                }, this.props.onCloseForm)
+                }, () => {
+                    this.props.onCloseForm();
+                });
+                return res.json();
+            })
+            .then(film => {
+                this.props.onFilmUpdated(film);
             });
     }
 

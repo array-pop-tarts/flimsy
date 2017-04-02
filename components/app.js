@@ -25,6 +25,8 @@ class App extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.searchMyFilms = this.searchMyFilms.bind(this);
         this.searchImdbFilms = this.searchImdbFilms.bind(this);
+
+        this.onFilmUpdated = this.onFilmUpdated.bind(this);
     }
 
     render() {
@@ -54,7 +56,7 @@ class App extends React.Component {
                          </span>
                     </div>
                 </form>
-                <Films films={ this.state.films } />
+                <Films films={ this.state.films } onFilmUpdated={ this.onFilmUpdated} />
             </div>
         );
     }
@@ -121,6 +123,16 @@ class App extends React.Component {
                     films: films
                 });
             });
+    }
+
+    onFilmUpdated(film) {
+        let films = this.state.films.map((current, i) => {
+            if (current._id === film._id) {
+                return film;
+            }
+            return current;
+        });
+        this.setState({films: films});
     }
 
     componentDidMount() {

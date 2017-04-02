@@ -89,7 +89,7 @@ class Film extends React.Component {
                             <MediaForm filmId={this.props.film._id}
                                        medium={ this.state.formMedium }
                                        onCloseForm={ this.toggleMediaForm }
-                                       onRefresh={ this.props.onRefresh } /> :
+                                       onFilmUpdated={ this.props.onFilmUpdated } /> :
                             null }
                     </div>
                     <div className="film-screenings">
@@ -100,7 +100,7 @@ class Film extends React.Component {
                                 <ScreeningForm filmId={this.props.film._id}
                                                screening={ this.state.formScreening }
                                                onCloseForm={ this.toggleScreeningForm }
-                                               onRefresh={ this.props.onRefresh } /> :
+                                               onFilmUpdated={ this.props.onFilmUpdated } /> :
                                 null }
                         </div>
                     </div>
