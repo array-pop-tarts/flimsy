@@ -17,6 +17,7 @@ class Screenings extends React.Component {
                            screening={ screening }
                            key={ i }
                            onEditScreening={ () => this.props.onEditScreening(screening) }
+                           refreshFilm={ this.props.refreshFilm }
                        />
                     })
                 }

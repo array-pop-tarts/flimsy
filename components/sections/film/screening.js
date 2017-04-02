@@ -64,9 +64,7 @@ class Screening extends React.Component {
         fetch(`/api/screenings/${this.props.screening._id}`, {
             method: 'DELETE'
         })
-            .then(() => [
-                // refresh
-            ]);
+            .then(() => this.props.refreshFilm(this.props.screening.film));
     }
 
 }

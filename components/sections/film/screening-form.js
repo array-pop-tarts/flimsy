@@ -330,18 +330,17 @@ class ScreeningForm extends React.Component {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(screening)
         })
-            .then((res) => {
+            .then(() => {
                 this.setState({
                     screening: {
                         date: moment(),
                         venue: {},
                         friends: []
                     }
-                }, this.props.onCloseForm);
-                return res.json();
-            })
-            .then(film => {
-                this.props.refreshFilm(film);
+                }, () => {
+                    this.props.onCloseForm();
+                    this.props.refreshFilm(this.props.filmId);
+                })
             });
     }
 

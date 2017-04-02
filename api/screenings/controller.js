@@ -62,7 +62,7 @@ exports.create = function (req, res) {
                         film.screened = screeningYear;
 
                     film.save()
-                        .then(film => res.send(film))
+                        .then(() => res.sendStatus(200))
                         .catch(err => res.send(err));
                 });
         })
@@ -104,7 +104,7 @@ exports.update = function (req, res) {
             screening.venue = venue;
 
             screening.save()
-                .then(screening => res.send(screening))
+                .then(() => res.sendStatus(200))
                 .catch(err => res.send(err));
         })
         .catch(err => res.send(err));

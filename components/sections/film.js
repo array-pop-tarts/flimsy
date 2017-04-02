@@ -147,6 +147,7 @@ class Film extends React.Component {
                 <Screenings
                     screeningsInfo={ this.props.film.screenings }
                     onEditScreening={ (screening) => this.editScreening(screening) }
+                    refreshFilm={ this.props.refreshFilm }
                 />
             )
         }
@@ -245,15 +246,6 @@ class Film extends React.Component {
         this.setState({
             formMedium: medium
         }, this.toggleMediaForm);
-/*
-        let film = this.props.film;
-        film.media = film.media.filter(existing => {
-            if (existing._id == medium._id)
-                return medium;
-            else
-                return existing;
-        });
-*/
     }
 
     deleteMedium(medium) {
