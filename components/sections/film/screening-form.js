@@ -179,6 +179,9 @@ class ScreeningForm extends React.Component {
         screening.venue.name = venue.name;
         if (venue.hasOwnProperty('_id'))
             screening.venue._id = venue._id;
+        else {
+            delete screening.venue._id;
+        }
 
         this.setState({
             screening: screening
@@ -258,6 +261,8 @@ class ScreeningForm extends React.Component {
         selectedFriend.name = friend.name;
         if (friend.hasOwnProperty('_id'))
             selectedFriend._id = friend._id;
+        else
+            delete selectedFriend._id;
 
         screening.friends.push(selectedFriend);
 

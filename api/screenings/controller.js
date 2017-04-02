@@ -71,10 +71,6 @@ exports.update = function (req, res) {
     Screening.findById(req.params.id)
         .then(screening => {
             screening.date = req.body.date;
-            screening.save()
-                .then(screening => res.send(screening))
-                .catch(err => res.send(err));
-/*
 
             let venue = req.body.venue;
             if (! venue.hasOwnProperty('_id')) {
@@ -102,9 +98,12 @@ exports.update = function (req, res) {
                 });
             }
 
-            screening.venue = venue;
             screening.friends = friends;
-*/
+            screening.venue = venue;
+
+            screening.save()
+                .then(screening => res.send(screening))
+                .catch(err => res.send(err));
         })
         .catch(err => res.send(err));
 };
@@ -130,7 +129,7 @@ exports.destroy = function (req, res) {
                         film.screened = null;
                     }
                     film.save()
-                        .then(() => res.send(200))
+                        .then(() => res.sendStatus(200))
                         .catch(err => res.send(err));
                 })
                 .catch(err => res.send(err));
