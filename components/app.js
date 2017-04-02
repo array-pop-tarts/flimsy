@@ -26,10 +26,11 @@ class App extends React.Component {
         this.searchMyFilms = this.searchMyFilms.bind(this);
         this.searchImdbFilms = this.searchImdbFilms.bind(this);
 
-        this.onFilmUpdated = this.onFilmUpdated.bind(this);
+        this.refreshFilm = this.refreshFilm.bind(this);
     }
 
     render() {
+        console.log(this.state.films);
         return (
             <div className="container-fluid">
                 <Header/>
@@ -56,7 +57,9 @@ class App extends React.Component {
                          </span>
                     </div>
                 </form>
-                <Films films={ this.state.films } onFilmUpdated={ this.onFilmUpdated} />
+                <Films films={ this.state.films }
+                       refreshFilm={ this.refreshFilm }
+                />
             </div>
         );
     }
@@ -125,14 +128,18 @@ class App extends React.Component {
             });
     }
 
-    onFilmUpdated(film) {
-        let films = this.state.films.map((current, i) => {
-            if (current._id === film._id) {
-                return film;
-            }
-            return current;
-        });
-        this.setState({films: films});
+    refreshFilm(filmId) {
+        fetch(`/api/films/${filmId}`)
+            .then(res => res.json())
+            .then(film => {
+                let films = this.state.films.map(current => {
+                    if (current._id === film._id) {
+                        return film;
+                    }
+                    return current;
+                });
+                this.setState({films: films});
+            });
     }
 
     componentDidMount() {

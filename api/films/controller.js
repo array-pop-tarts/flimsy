@@ -27,8 +27,16 @@ exports.index = function (req, res) {
 };
 
 exports.show = function (req, res) {
-    Film.findOne({imdbId: req.params.imdbId})
-        .then(film => res.send(JSON.stringify(film)))
+    Film.findById(req.params.id)
+        .populate({
+            path: "screenings",
+            model: "Screening",
+            populate: [
+                {path: "venue", model: "Venue"},
+                {path: "friends", model: "Friend"}
+            ]
+        })
+        .then(film => res.send(film))
         .catch(err => res.send(err));
 };
 
@@ -51,13 +59,8 @@ exports.createMedium = function (req, res) {
                 type: req.body.type
             });
             film.save()
-                .then((film) => {
-                    res.send(film);
-                })
-                .catch((err) => {
-                    res.status(422);
-                    res.send(err);
-                });
+                .then(() => res.sendStatus(200))
+                .catch((err) => res.send(err));
         })
         .catch((err) => res.send(err));
 };
@@ -89,7 +92,7 @@ exports.updateMedium = function(req, res) {
             });
             film.media = media;
             film.save()
-                .then(film => res.send(film))
+                .then(() => res.sendStatus(200))
                 .catch(err => res.send(err));
         })
         .catch(err => res.send(err));

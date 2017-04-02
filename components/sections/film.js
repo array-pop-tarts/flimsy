@@ -89,7 +89,7 @@ class Film extends React.Component {
                             <MediaForm filmId={this.props.film._id}
                                        medium={ this.state.formMedium }
                                        onCloseForm={ this.toggleMediaForm }
-                                       onFilmUpdated={ this.props.onFilmUpdated } /> :
+                                       refreshFilm={ this.props.refreshFilm } /> :
                             null }
                     </div>
                     <div className="film-screenings">
@@ -100,7 +100,7 @@ class Film extends React.Component {
                                 <ScreeningForm filmId={this.props.film._id}
                                                screening={ this.state.formScreening }
                                                onCloseForm={ this.toggleScreeningForm }
-                                               onFilmUpdated={ this.props.onFilmUpdated } /> :
+                                               refreshFilm={ this.props.refreshFilm } /> :
                                 null }
                         </div>
                     </div>
@@ -167,8 +167,8 @@ class Film extends React.Component {
                 <div className="available-media">
                     <Media
                         mediaInfo={ this.props.film.media }
-                        onEditMedium={medium => this.editMedium(medium)}
-                        onDeleteMedium={medium => this.deleteMedium(medium)}
+                        onEditMedium={this.editMedium}
+                        onDeleteMedium={this.deleteMedium}
                     />
                     { this.state.showFormButtons.Media ? this.renderAddMediaButton(false) : null }
                 </div>
@@ -264,8 +264,8 @@ class Film extends React.Component {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(film)
         })
-            .then(film => {
-                // refresh the omdb fetch?
+            .then(() => {
+                this.props.refreshFilm(this.props.film._id);
             });
     }
 

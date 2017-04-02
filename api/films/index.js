@@ -10,7 +10,7 @@ let controller = require('./controller');
 
 router.get('/', controller.index);
 router.get('/imdbIds', controller.findByImdbIds);
-router.get('/:imdbId', controller.show);
+router.get('/:id', controller.show);
 
 router.post('/', controller.create);
 

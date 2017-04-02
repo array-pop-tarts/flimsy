@@ -61,7 +61,9 @@ exports.create = function (req, res) {
                     if (!(film.hasOwnProperty('screened')) || film.screened > screeningYear)
                         film.screened = screeningYear;
 
-                    film.save(screening => res.send(screening));
+                    film.save()
+                        .then(film => res.send(film))
+                        .catch(err => res.send(err));
                 });
         })
         .catch(err => res.send(err));

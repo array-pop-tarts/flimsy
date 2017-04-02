@@ -105,11 +105,8 @@ class MediaForm extends React.Component {
                     }
                 }, () => {
                     this.props.onCloseForm();
+                    this.props.refreshFilm(this.props.filmId);
                 });
-                return res.json();
-            })
-            .then(film => {
-                this.props.onFilmUpdated(film);
             });
     }
 

@@ -73,7 +73,7 @@ class ScreeningForm extends React.Component {
                         <input type="text"
                                className="form-control form-control-sm"
                                placeholder="Where'd you see it?"
-                               value={ this.state.screening.venue.name || "" }
+                               value={ this.state.screening.venue.hasOwnProperty('name') ? this.state.screening.venue.name : "" }
                                onChange={ this.onVenueChange }
                         />
                         { this.state.showHelpers.Venues ? this.renderVenuesHelper() : null}
@@ -330,7 +330,7 @@ class ScreeningForm extends React.Component {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(screening)
         })
-            .then(() => {
+            .then((res) => {
                 this.setState({
                     screening: {
                         date: moment(),
@@ -338,11 +338,15 @@ class ScreeningForm extends React.Component {
                         friends: []
                     }
                 }, this.props.onCloseForm);
+                return res.json();
+            })
+            .then(film => {
+                this.props.refreshFilm(film);
             });
     }
 
     componentDidMount() {
-        if (this.props.screening) {
+        if (this.props.screening.hasOwnProperty('_id')) {
 
             let screening = this.props.screening;
             let timestamp = screening.date;

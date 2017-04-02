@@ -12,10 +12,10 @@ class Screenings extends React.Component {
         return (
             <ul className="list-group list-group-flush">
                 {
-                   this.props.screeningsInfo.map((screening) => {
+                   this.props.screeningsInfo.map((screening, i) => {
                        return <Screening
                            screening={ screening }
-                           key={ screening._id }
+                           key={ i }
                            onEditScreening={ () => this.props.onEditScreening(screening) }
                        />
                     })
