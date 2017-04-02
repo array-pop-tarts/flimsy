@@ -68,7 +68,45 @@ exports.create = function (req, res) {
 };
 
 exports.update = function (req, res) {
+    Screening.findById(req.params.id)
+        .then(screening => {
+            screening.date = req.body.date;
+            screening.save()
+                .then(screening => res.send(screening))
+                .catch(err => res.send(err));
+/*
 
+            let venue = req.body.venue;
+            if (! venue.hasOwnProperty('_id')) {
+                let newVenue = new Venue();
+                venue._id = newVenue._id;
+
+                newVenue.name = venue.name;
+                newVenue.save()
+                    .then()
+                    .catch(err => res.send(err));
+            }
+
+            let friends = req.body.friends;
+            if (friends.length > 0) {
+                friends.map((friend, i) => {
+                    if (!friend.hasOwnProperty('_id')) {
+                        let newFriend = new Friend();
+                        friends[i]._id = newFriend._id;
+
+                        newFriend.name = friend.name;
+                        newFriend.save()
+                            .then()
+                            .catch(err => res.send(err));
+                    }
+                });
+            }
+
+            screening.venue = venue;
+            screening.friends = friends;
+*/
+        })
+        .catch(err => res.send(err));
 };
 
 exports.destroy = function (req, res) {
@@ -80,7 +118,10 @@ exports.destroy = function (req, res) {
                 .then(film  => {
                     film.screenings.remove(screening._id);
                     if (film.screenings.length > 0) {
-                        let minTimestamp = Math.min.apply(Math, film.screenings.map(screening => screening.date));
+                        let minTimestamp = Math.min.apply(
+                            Math,
+                            film.screenings.map(screening => screening.date)
+                        );
                         let minDate = new Date(minTimestamp);
                         let screenedYear = minDate.getFullYear();
                         film.screened = screenedYear;

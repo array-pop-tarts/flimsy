@@ -13,13 +13,16 @@ class ScreeningForm extends React.Component {
 
     constructor() {
         super();
+
         this.state = {
             venuesList: [],
             friendsList: [],
 
-            selectedDate: moment(),
-            selectedVenue: {},
-            selectedFriends: [],
+            screening: {
+                date: moment(),
+                venue: {},
+                friends: []
+            },
 
             friendInput: "",
             newVenue: {},
@@ -60,7 +63,7 @@ class ScreeningForm extends React.Component {
                 <FormHeading formType="Screening" onCloseForm={ this.props.onCloseForm }/>
                 <div className="row">
                     <div className="col">
-                        <DatePicker selected={ this.state.selectedDate }
+                        <DatePicker selected={ this.state.screening.date }
                                     className="form-control form-control-sm"
                                     dateFormat="YYYY-MM-DD"
                                     onChange={ this.onDateChange }
@@ -70,14 +73,14 @@ class ScreeningForm extends React.Component {
                         <input type="text"
                                className="form-control form-control-sm"
                                placeholder="Where'd you see it?"
-                               value={ this.state.selectedVenue.name || "" }
+                               value={ this.state.screening.venue.name || "" }
                                onChange={ this.onVenueChange }
                         />
                         { this.state.showHelpers.Venues ? this.renderVenuesHelper() : null}
                     </div>
                 </div>
                 <div>
-                    { this.state.selectedFriends.length > 0 ? this.renderSelectedFriends() : null }
+                    { this.state.screening.friends.length > 0 ? this.renderSelectedFriends() : null }
                     <input type="text"
                            className="form-control form-control-sm"
                            placeholder="Did you got to the movies by yourself again?"
@@ -94,7 +97,9 @@ class ScreeningForm extends React.Component {
     }
 
     onDateChange(date) {
-        this.setState({ selectedDate: date });
+        let screening = this.state.screening;
+        screening.date = date;
+        this.setState({ screening: screening });
     }
 
     onVenueChange(e) {
@@ -114,11 +119,10 @@ class ScreeningForm extends React.Component {
                 });
             });
 
-        let selectedVenue = {
-            name: e.target.value
-        };
+        let screening = this.state.screening;
+        screening.venue.name = e.target.value;
         this.setState({
-            selectedVenue: selectedVenue
+            screening: screening
         });
     }
 
@@ -129,13 +133,13 @@ class ScreeningForm extends React.Component {
     }
 
     toggleNewVenueButton() {
-        if (this.state.selectedVenue.name.length >= 1) {
+        if (this.state.screening.venue.name.length >= 1) {
             return (
                 <button
                     className="list-group-item list-group-item-action"
-                    onClick={(e) => this.selectVenue({name: this.state.selectedVenue.name}, e)}
+                    onClick={(e) => this.selectVenue({name: this.state.screening.venue.name}, e)}
                 >
-                    Add new venue: { this.state.selectedVenue.name }
+                    Add new venue: { this.state.screening.venue.name }
                 </button>
             );
         }
@@ -170,14 +174,14 @@ class ScreeningForm extends React.Component {
 
     selectVenue(venue, e) {
         e.preventDefault();
-        let selectedVenue = {
-            name: venue.name
-        };
+
+        let screening = this.state.screening;
+        screening.venue.name = venue.name;
         if (venue.hasOwnProperty('_id'))
-            selectedVenue._id = venue._id;
+            screening.venue._id = venue._id;
 
         this.setState({
-            selectedVenue: selectedVenue
+            screening: screening
         });
         this.toggleVenuesHelper();
     }
@@ -249,16 +253,16 @@ class ScreeningForm extends React.Component {
     selectFriend(friend, e) {
         e.preventDefault();
 
-        let selectedFriends = this.state.selectedFriends;
+        let screening = this.state.screening;
         let selectedFriend = {};
         selectedFriend.name = friend.name;
         if (friend.hasOwnProperty('_id'))
             selectedFriend._id = friend._id;
 
-        selectedFriends.push(selectedFriend);
+        screening.friends.push(selectedFriend);
 
         this.setState({
-            selectedFriends: selectedFriends,
+            screening: screening,
             friendInput: ""
         });
 
@@ -270,7 +274,7 @@ class ScreeningForm extends React.Component {
             <div>
                 <ul className="list-inline">
                     {
-                        this.state.selectedFriends.map((friend, i) => {
+                        this.state.screening.friends.map((friend, i) => {
                             return (
                                 <li className="list-inline-item" key={ i }>
                                     <button className="btn btn-danger btn-sm"
@@ -289,9 +293,9 @@ class ScreeningForm extends React.Component {
     }
 
     deselectFriend(key) {
-        let selectedFriends = this.state.selectedFriends;
-        selectedFriends.splice(key, 1);
-        this.setState({ selectedFriends: selectedFriends });
+        let screening = this.state.screening;
+        screening.friends.splice(key, 1);
+        this.setState({ screening: screening });
     }
 
     onSaveScreening(e) {
@@ -300,15 +304,20 @@ class ScreeningForm extends React.Component {
         let url = '/api/screenings';
         let method = 'POST';
 
-        let selectedDate = this.state.selectedDate;
+        if (this.state.screening.hasOwnProperty('_id')) {
+            url = `/api/screenings/${this.state.screening._id}`;
+            method = 'PUT';
+        }
+
+        let selectedDate = this.state.screening.date;
         let dateTimestamp = selectedDate._d.getTime();
 
         let screening = {
             //user: req.user,
             film: this.props.filmId,
             date: dateTimestamp,
-            venue: this.state.selectedVenue,
-            friends: this.state.selectedFriends
+            venue: this.state.screening.venue,
+            friends: this.state.screening.friends
         };
 
         fetch(url, {
@@ -318,10 +327,24 @@ class ScreeningForm extends React.Component {
         })
             .then(() => {
                 this.setState({
-                    selectedVenue: {},
-                    selectedFriends: {}
+                    screening: {
+                        date: moment(),
+                        venue: {},
+                        friends: []
+                    }
                 }, this.props.onCloseForm);
             });
+    }
+
+    componentDidMount() {
+        if (this.props.screening) {
+
+            let screening = this.props.screening;
+            let timestamp = screening.date;
+            screening.date = moment(timestamp);
+
+            this.setState({screening: screening});
+        }
     }
 }
 

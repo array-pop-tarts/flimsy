@@ -4,7 +4,6 @@
  * Created: 2017-02-20
  */
 import React from 'react';
-import firebase from 'firebase';
 
 import FilmInfo from './film/film-info';
 
@@ -31,6 +30,9 @@ class Film extends React.Component {
                 Screening: true,
                 Media: true
             },
+            formScreening: {},
+            formMedium: {},
+
             rating: null
         };
 
@@ -48,6 +50,8 @@ class Film extends React.Component {
         this.toggleMediaForm = this.toggleMediaForm.bind(this);
 
         this.addToMyFilms = this.addToMyFilms.bind(this);
+
+        this.editScreening = this.editScreening.bind(this);
     }
 
     render() {
@@ -91,6 +95,7 @@ class Film extends React.Component {
                             { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
                             { this.state.showForms.Screening ?
                                 <ScreeningForm filmId={this.props.film._id}
+                                               screening={ this.state.formScreening }
                                                onCloseForm={ this.toggleScreeningForm }
                                                onRefresh={ this.props.onRefresh } /> :
                                 null }
@@ -136,7 +141,10 @@ class Film extends React.Component {
     renderScreenings() {
         if (this.props.film.hasOwnProperty('screenings') && this.props.film.screenings.length) {
             return (
-                <Screenings screeningsInfo={ this.props.film.screenings } />
+                <Screenings
+                    screeningsInfo={ this.props.film.screenings }
+                    onEditScreening={ (screening) => this.editScreening(screening) }
+                />
             )
         }
     }
@@ -218,6 +226,12 @@ class Film extends React.Component {
             .then(film => {
                 // refresh the omdb fetch?
             });
+    }
+
+    editScreening(screening) {
+        this.setState({
+            formScreening: screening
+        }, this.toggleScreeningForm);
     }
 
 }

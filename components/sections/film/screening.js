@@ -16,7 +16,6 @@ class Screening extends React.Component {
         this.renderDate = this.renderDate.bind(this);
         this.renderFriends = this.renderFriends.bind(this);
 
-        this.editScreening = this.editScreening.bind(this);
         this.deleteScreening = this.deleteScreening.bind(this);
     }
 
@@ -33,7 +32,7 @@ class Screening extends React.Component {
                     <div className="screening-actions col-4">
                         <button className="button-transparent"
                                 title="Edit"
-                                onClick={ this.editScreening }>
+                                onClick={ this.props.onEditScreening }>
                             <i className="fa fa-gear"></i>
                         </button>
                         <button className="button-transparent"
@@ -59,10 +58,6 @@ class Screening extends React.Component {
             return names.join(', ');
         } else
             return "";
-    }
-
-    editScreening() {
-
     }
 
     deleteScreening() {
