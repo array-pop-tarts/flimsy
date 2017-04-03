@@ -22,6 +22,7 @@ exports.index = function (req, res) {
                 {path: "friends", model: "Friend"}
             ]
         })
+        .sort({released: -1})
         .then(films => res.send(films))
         .catch(err => res.send(err));
 };
@@ -36,6 +37,7 @@ exports.show = function (req, res) {
                 {path: "friends", model: "Friend"}
             ]
         })
+        .sort({released: -1})
         .then(film => res.send(film))
         .catch(err => res.send(err));
 };
