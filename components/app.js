@@ -30,7 +30,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.state.films);
         return (
             <div className="container-fluid">
                 <Header/>

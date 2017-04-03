@@ -17,5 +17,6 @@ router.post('/', controller.create);
 router.post('/:id/medium', controller.createMedium);
 router.put('/:id/medium', controller.updateMedium);
 router.put('/:id/media', controller.updateDeletedMedia);
+router.put('/:id/rating', controller.updateRating)
 
 module.exports = router;

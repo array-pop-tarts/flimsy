@@ -51,6 +51,17 @@ exports.create = function (req, res) {
         .catch(err => res.send(err));
 };
 
+exports.updateRating = function (req, res) {
+    Film.findById(req.params.id)
+        .then(film => {
+            film.rating = req.body.rating;
+            film.save()
+                .then(() => res.sendStatus(200))
+                .catch(err => res.send(err));
+        })
+        .catch(err => res.send(err));
+};
+
 exports.createMedium = function (req, res) {
     Film.findById(req.params.id)
         .then((film) => {

@@ -58,8 +58,7 @@ class Film extends React.Component {
 
     render() {
 
-        let film = this.props.film;
-        let ratedClass = (film.rating) ? "" : "unrated";
+        let ratedClass = (this.state.rating) ? "" : "unrated";
 
         let isMyFilm = false;
         if (this.props.film.hasOwnProperty('_id') ||
@@ -79,7 +78,7 @@ class Film extends React.Component {
                                   onAddToMyFilms={ this.addToMyFilms }
                         />
                         <div className={ "rating h6 " + ratedClass }>
-                            { this.renderRating(film.rating) }
+                            { this.renderRating() }
                         </div>
                     </div>
 
@@ -119,7 +118,8 @@ class Film extends React.Component {
         }
     }
 
-    renderRating(rating) {
+    renderRating() {
+        let rating = this.state.rating;
 
         if (rating === undefined)
             rating = 0;
@@ -135,7 +135,7 @@ class Film extends React.Component {
                         key={i}
                         index={i}
                         highlightRating={ (rating) => this.highlightRating(rating) }
-                        changeRating={ (rating) => this.changeRating(rating) } />
+                        changeRating={ this.changeRating } />
             );
         }
         return ratingLinks;
@@ -194,12 +194,15 @@ class Film extends React.Component {
 
     highlightRating(rating) {
         this.setState({rating: rating});
-        this.renderRating(rating);
     }
 
-    changeRating(rating) {
-        const fireFilmRating = firebase.database().ref('films/' + this.props.film.id + '/rating');
-        fireFilmRating.set(rating);
+    changeRating() {
+        fetch(`/api/films/${this.props.film._id}/rating`, {
+            method: 'PUT',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({rating: this.state.rating})
+        })
+            .then(() => this.props.refreshFilm(this.props.film._id) );
     }
 
     toggleScreeningForm() {
@@ -258,6 +261,13 @@ class Film extends React.Component {
         })
             .then(() => {
                 this.props.refreshFilm(this.props.film._id);
+            });
+    }
+
+    componentDidMount() {
+        if (this.props.film.rating)
+            this.setState({
+                rating: this.props.film.rating
             });
     }
 
