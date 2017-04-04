@@ -20,6 +20,9 @@ mongoose.connect(process.env.MONGODB_SERVER);
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+let setUpAuth = require('./auth');
+setUpAuth(app);
+
 app.use('/api/users', require('./api/users'));
 app.use('/api/films', require('./api/films'));
 app.use('/api/screenings', require('./api/screenings'));
