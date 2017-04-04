@@ -10,7 +10,7 @@ class Rating extends React.Component {
         return (
             <button className="btn"
                     onMouseOver={ (e) => this.props.highlightRating(this.props.index) }
-                    onClick={ this.props.changeRating } >
+                    onClick={ this.props.saveRating } >
                 <i className={ "fa fa-circle" + selectedClass }></i>
             </button>
         );

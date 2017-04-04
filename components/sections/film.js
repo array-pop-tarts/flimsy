@@ -33,7 +33,8 @@ class Film extends React.Component {
             formScreening: {},
             formMedium: {},
 
-            rating: null
+            rating: null,
+            hoverRating: null
         };
 
         this.renderPoster = this.renderPoster.bind(this);
@@ -44,7 +45,9 @@ class Film extends React.Component {
         this.renderAddMediaButton = this.renderAddMediaButton.bind(this);
 
         this.highlightRating = this.highlightRating.bind(this);
-        this.changeRating = this.changeRating.bind(this);
+        this.saveRating = this.saveRating.bind(this);
+        this.ratingMouseEnter = this.ratingMouseEnter.bind(this);
+        this.ratingMouseLeave = this.ratingMouseLeave.bind(this);
 
         this.toggleScreeningForm = this.toggleScreeningForm.bind(this);
         this.toggleMediaForm = this.toggleMediaForm.bind(this);
@@ -77,7 +80,10 @@ class Film extends React.Component {
                                   isMyFilm={ isMyFilm }
                                   onAddToMyFilms={ this.addToMyFilms }
                         />
-                        <div className={ "rating h6 " + ratedClass }>
+                        <div className={ "rating h6 " + ratedClass }
+                             onMouseEnter={ this.ratingMouseEnter }
+                             onMouseLeave={ this.ratingMouseLeave }
+                        >
                             { this.renderRating() }
                         </div>
                     </div>
@@ -119,7 +125,13 @@ class Film extends React.Component {
     }
 
     renderRating() {
-        let rating = this.state.rating;
+        console.log(this.state.hoverRating);
+        console.log(this.state.rating);
+        let rating;
+        if (this.state.hoverRating)
+            rating = this.state.hoverRating;
+        else
+            rating = this.state.rating;
 
         if (rating === undefined)
             rating = 0;
@@ -135,7 +147,7 @@ class Film extends React.Component {
                         key={i}
                         index={i}
                         highlightRating={ (rating) => this.highlightRating(rating) }
-                        changeRating={ this.changeRating } />
+                        saveRating={ this.saveRating } />
             );
         }
         return ratingLinks;
@@ -192,17 +204,35 @@ class Film extends React.Component {
         );
     }
 
-    highlightRating(rating) {
-        this.setState({rating: rating});
+    ratingMouseEnter() {
+        console.log("enter");
+        this.setState({
+            hoverRating: this.state.rating
+        });
     }
 
-    changeRating() {
+    ratingMouseLeave() {
+        console.log("leave");
+        this.setState({
+            hoverRating: null
+        });
+    }
+
+    highlightRating(rating) {
+        this.setState({hoverRating: rating});
+    }
+
+    saveRating() {
         fetch(`/api/films/${this.props.film._id}/rating`, {
             method: 'PUT',
             headers: { "Content-type": "application/json" },
-            body: JSON.stringify({rating: this.state.rating})
+            body: JSON.stringify({rating: this.state.hoverRating})
         })
-            .then(() => this.props.refreshFilm(this.props.film._id) );
+            .then(() => {
+                this.setState({
+                    rating: this.state.hoverRating
+                }, this.props.refreshFilm(this.props.film._id));
+            });
     }
 
     toggleScreeningForm() {
