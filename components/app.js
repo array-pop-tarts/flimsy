@@ -7,6 +7,7 @@ import React from 'react';
 
 import Header from './layout/header';
 import Search from './layout/search';
+import Login from './sections/auth/login';
 import Films from './sections/films';
 
 class App extends React.Component {
@@ -14,8 +15,12 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
+            user: null,
+            userIsLoaded: false,
             films: []
         };
+
+        this.userLoggedIn = this.userLoggedIn.bind(this);
 
         this.handleSearch = this.handleSearch.bind(this);
         this.searchMyFilms = this.searchMyFilms.bind(this);
@@ -25,15 +30,26 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.user);
         return (
             <div className="container-fluid">
                 <Header/>
                 <Search handleSearch={ (search) => this.handleSearch(search) } />
-                <Films films={ this.state.films }
-                       refreshFilm={ this.refreshFilm }
-                />
+                {
+                    (this.state.user !== null) ?
+                        <Films films={ this.state.films }
+                               refreshFilm={ this.refreshFilm }
+                        /> :
+                        <Login onLogin={ this.userLoggedIn } />
+                }
             </div>
         );
+    }
+
+    userLoggedIn(user) {
+        this.setState({
+            user: user
+        }, this.searchMyFilms(""));
     }
 
     handleSearch(search) {
@@ -101,7 +117,14 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.searchMyFilms("");
+        fetch('/api/me')
+            .then(user => {
+                this.setState({
+                    userIsLoaded: true
+                });
+                if (user)
+                    this.userLoggedIn(user);
+            });
     }
 }
 

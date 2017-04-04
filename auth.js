@@ -21,10 +21,6 @@ module.exports = function (app) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.post('/api/login', passport.authenticate('local'), function (req, res) {
-        res.send(req.user);
-    });
-
     app.post('/api/signup', function (req, res) {
         let user = new User();
         user.email = req.body.email;
@@ -34,6 +30,14 @@ module.exports = function (app) {
             if (err) { return next(err); }
             res.send(user);
         })
+    });
+
+    app.post('/api/login', passport.authenticate('local'), function (req, res) {
+        res.send(req.user);
+    });
+
+    app.get('/api/logout', function (req, res) {
+       res.sendStatus(200);
     });
 
     app.get('/api/me', function (req, res) {
