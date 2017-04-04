@@ -22,6 +22,8 @@ class Film extends React.Component {
         super();
 
         this.state = {
+            isMyFilm: false,
+
             showForms: {
                 Screening: false,
                 Media: false
@@ -39,10 +41,13 @@ class Film extends React.Component {
 
         this.renderPoster = this.renderPoster.bind(this);
         this.renderRating = this.renderRating.bind(this);
-        this.renderScreenings = this.renderScreenings.bind(this);
-        this.renderAddScreeningButton = this.renderAddScreeningButton.bind(this);
+
+        this.renderMediaBlock = this.renderMediaBlock.bind(this);
+        this.renderScreeningsBlock = this.renderScreeningsBlock.bind(this);
         this.renderMedia = this.renderMedia.bind(this);
         this.renderAddMediaButton = this.renderAddMediaButton.bind(this);
+        this.renderScreenings = this.renderScreenings.bind(this);
+        this.renderAddScreeningButton = this.renderAddScreeningButton.bind(this);
 
         this.highlightRating = this.highlightRating.bind(this);
         this.saveRating = this.saveRating.bind(this);
@@ -63,12 +68,6 @@ class Film extends React.Component {
 
         let ratedClass = (this.state.rating) ? "" : "unrated";
 
-        let isMyFilm = false;
-        if (this.props.film.hasOwnProperty('_id') ||
-            this.props.film.hasOwnProperty('isMyFilm') &&
-            this.props.film.isMyFilm)
-            isMyFilm = true;
-
         return (
             <div className="brick">
                 <div className="card film-card">
@@ -77,7 +76,7 @@ class Film extends React.Component {
                         <FilmInfo title={this.props.film.title}
                                   translation={this.props.film.translation}
                                   released={this.props.film.released}
-                                  isMyFilm={ isMyFilm }
+                                  isMyFilm={ this.state.isMyFilm }
                                   onAddToMyFilms={ this.addToMyFilms }
                         />
                         <div className={ "rating h6 " + ratedClass }
@@ -88,27 +87,10 @@ class Film extends React.Component {
                         </div>
                     </div>
 
-                    <div className="card-block film-media">
-                        { this.renderMedia() }
-                        { this.state.showForms.Media ?
-                            <MediaForm filmId={this.props.film._id}
-                                       medium={ this.state.formMedium }
-                                       onCloseForm={ this.toggleMediaForm }
-                                       refreshFilm={ this.props.refreshFilm } /> :
-                            null }
-                    </div>
-                    <div className="film-screenings">
-                        { this.renderScreenings() }
-                        <div className="card-block">
-                            { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
-                            { this.state.showForms.Screening ?
-                                <ScreeningForm filmId={this.props.film._id}
-                                               screening={ this.state.formScreening }
-                                               onCloseForm={ this.toggleScreeningForm }
-                                               refreshFilm={ this.props.refreshFilm } /> :
-                                null }
-                        </div>
-                    </div>
+                    { this.renderMediaBlock() }
+
+                    { this.renderScreeningsBlock() }
+
                 </div>
             </div>
         );
@@ -125,8 +107,6 @@ class Film extends React.Component {
     }
 
     renderRating() {
-        console.log(this.state.hoverRating);
-        console.log(this.state.rating);
         let rating;
         if (this.state.hoverRating)
             rating = this.state.hoverRating;
@@ -151,6 +131,45 @@ class Film extends React.Component {
             );
         }
         return ratingLinks;
+    }
+
+    renderMediaBlock() {
+        if (this.state.isMyFilm) {
+            return (
+                <div className="card-block film-media">
+                    { this.renderMedia() }
+                    { this.state.showForms.Media ?
+                        <MediaForm filmId={this.props.film._id}
+                                   medium={ this.state.formMedium }
+                                   onCloseForm={ this.toggleMediaForm }
+                                   refreshFilm={ this.props.refreshFilm } /> :
+                        null }
+                </div>
+            );
+        } else {
+            return null;
+        }
+    }
+
+    renderScreeningsBlock() {
+        if (this.state.isMyFilm) {
+            return (
+                <div className="film-screenings">
+                    { this.renderScreenings() }
+                    <div className="card-block">
+                        { this.state.showFormButtons.Screening ? this.renderAddScreeningButton() : null }
+                        { this.state.showForms.Screening ?
+                            <ScreeningForm filmId={this.props.film._id}
+                                           screening={ this.state.formScreening }
+                                           onCloseForm={ this.toggleScreeningForm }
+                                           refreshFilm={ this.props.refreshFilm } /> :
+                            null }
+                    </div>
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
 
     renderScreenings() {
@@ -205,14 +224,12 @@ class Film extends React.Component {
     }
 
     ratingMouseEnter() {
-        console.log("enter");
         this.setState({
             hoverRating: this.state.rating
         });
     }
 
     ratingMouseLeave() {
-        console.log("leave");
         this.setState({
             hoverRating: null
         });
@@ -295,10 +312,25 @@ class Film extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.film.rating)
-            this.setState({
-                rating: this.props.film.rating
-            });
+        console.log(this.props.film.title);
+        console.log(this.props.film.hasOwnProperty('_id'));
+        console.log(this.props.film.hasOwnProperty('isMyFilm'));
+
+        let isMyFilm = false;
+        if (this.props.film.hasOwnProperty('_id') ||
+            this.props.film.hasOwnProperty('isMyFilm') &&
+            this.props.film.isMyFilm) {
+            isMyFilm = true;
+        }
+
+        let rating = null;
+        if (this.props.film.hasOwnProperty('rating') && this.props.film.rating)
+            rating = this.props.film.rating;
+
+        this.setState({
+            isMyFilm: isMyFilm,
+            rating: rating
+        });
     }
 
 }
