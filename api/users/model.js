@@ -2,13 +2,22 @@
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
+let passportLocalMongoose = require('passport-local-mongoose');
 
-var UserSchema = new mongoose.Schema({
+let UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true
     }
+});
+
+UserSchema.plugin(passportLocalMongoose, {
+    usernameField: 'email'
 });
 
 module.exports = mongoose.model('User', UserSchema);
