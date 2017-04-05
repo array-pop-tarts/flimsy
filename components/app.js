@@ -7,7 +7,6 @@ import React from 'react';
 import $ from 'jquery';
 
 import Header from './layout/header';
-import Search from './layout/search';
 import Login from './sections/auth/login';
 import Films from './sections/films';
 
@@ -22,6 +21,7 @@ class App extends React.Component {
         };
 
         this.userLoggedIn = this.userLoggedIn.bind(this);
+        this.userLoggedOut = this.userLoggedOut.bind(this);
 
         this.handleSearch = this.handleSearch.bind(this);
         this.searchMyFilms = this.searchMyFilms.bind(this);
@@ -33,9 +33,12 @@ class App extends React.Component {
     render() {
         console.log(this.state.user);
         return (
-            <div className="container-fluid">
-                <Header/>
-                <Search handleSearch={ (search) => this.handleSearch(search) } />
+            <div>
+                <Header user={this.state.user}
+                        handleSearch={ this.handleSearch }
+                        onLogout={ this.userLoggedOut }
+                />
+                <div className="container-fluid">
                 {
                     (this.state.user !== null) ?
                         <Films films={ this.state.films }
@@ -43,6 +46,7 @@ class App extends React.Component {
                         /> :
                         <Login onLogin={ this.userLoggedIn } />
                 }
+                </div>
             </div>
         );
     }
@@ -51,6 +55,12 @@ class App extends React.Component {
         this.setState({
             user: user
         }, this.searchMyFilms(""));
+    }
+
+    userLoggedOut() {
+        this.setState({
+            user: null
+        });
     }
 
     handleSearch(search) {

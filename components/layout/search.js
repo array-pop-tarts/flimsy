@@ -20,7 +20,7 @@ class Search extends React.Component {
 
     render() {
         return (
-            <form className="search-films" onSubmit={ (e) => this.handleSearch(e) } >
+            <form className="search-films col-12" onSubmit={ (e) => this.handleSearch(e) } >
                 <div className="input-group">
                     <input className="form-control"
                            type="text"

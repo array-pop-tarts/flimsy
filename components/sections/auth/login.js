@@ -27,43 +27,52 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={ this.login }>
-                    {
-                        this.state.mode === 'signup' ?
-                            <input name="name"
+            <div className="row login-form my-md-5">
+                <div className="col-sm-22 col-md-12 col-xl-6 mx-auto">
+                    <form onSubmit={ this.login }>
+                        <legend>Let's go to the pictures!</legend>
+                        {
+                            this.state.mode === 'signup' ?
+                                <div className="form-group">
+                                    <input name="name"
+                                           type="text"
+                                           className="form-control"
+                                           placeholder="display name"
+                                           value={ this.state.login.name }
+                                           onChange={ this.updateField }
+                                    />
+                                </div> :
+                                null
+                        }
+                        <div className="form-group">
+                            <input name="email"
                                    type="text"
                                    className="form-control"
-                                   placeholder="username"
-                                   value={ this.state.login.name }
+                                   placeholder="email"
+                                   value={ this.state.login.email }
                                    onChange={ this.updateField }
-                            /> :
-                            null
-                    }
-                    <input name="email"
-                           type="text"
-                           className="form-control"
-                           placeholder="email"
-                           value={ this.state.login.email }
-                           onChange={ this.updateField }
-                    />
-                    <input name="password"
-                           type="password"
-                           className="form-control"
-                           placeholder="password"
-                           value={ this.state.login.password }
-                           onChange={ this.updateField }
-                    />
-                    <button type="submit" className="btn btn-success">
-                        { this.state.mode === 'login' ? 'Log In' : 'Sign Up' }
-                    </button>
-                    <button type="button"
-                            className="button-transparent"
-                            onClick={ this.toggleMode }
-                    >
-                        { this.state.mode === 'login' ? 'Sign Up' : 'Log In' }
-                    </button>
-                </form>
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input name="password"
+                                   type="password"
+                                   className="form-control"
+                                   placeholder="password"
+                                   value={ this.state.login.password }
+                                   onChange={ this.updateField }
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-success">
+                            { this.state.mode === 'login' ? 'Log In' : 'Sign Up' }
+                        </button>
+                        <button type="button"
+                                className="button-transparent"
+                                onClick={ this.toggleMode }
+                        >
+                            { this.state.mode === 'login' ? 'Sign Up' : 'Log In' }
+                        </button>
+                    </form>
+                </div>
             </div>
         );
     }
@@ -86,8 +95,8 @@ class Login extends React.Component {
     login(e) {
         e.preventDefault();
 
-        var url;
-        if (this.state.mode == 'login') {
+        let url;
+        if (this.state.mode === 'login') {
             url = "/api/login";
         } else {
             url = "/api/signup";
@@ -101,8 +110,8 @@ class Login extends React.Component {
             success: (user) => {
                 this.props.onLogin(user);
             },
-            error: (err) => {
-                this.setState({ error: "We couldn't log you in with those credentials." });
+            error: (error) => {
+                this.setState({ error: error });
             }
         });
 

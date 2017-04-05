@@ -1,7 +1,6 @@
 node_modules/**/*
 .idea/**/*
 prepros.cfg
-db/*
 .env
 todo.txt
 scss/**/*

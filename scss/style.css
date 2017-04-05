@@ -7435,61 +7435,26 @@ body {
     font-size: small;
     padding-left: 1rem;
     padding-right: 1rem; } }
-header.site-header {
-  background: #fafafa; }
-  header.site-header .navbar {
-    display: block;
-    padding: 0; }
-  header.site-header nav[class*="navbar-toggleable-"] > .container {
+header {
+  background: #80628b; }
+  header nav[class*="navbar-toggleable-"] > .container {
     display: block; }
-  header.site-header .logo-col {
-    padding-top: 10px; }
-  header.site-header .account-col {
-    padding: 6px 0 8px; }
-    header.site-header .account-col a {
-      color: #333333; }
-    header.site-header .account-col .navbar-toggler {
-      font-size: inherit;
-      padding: inherit; }
-  header.site-header .search-col .form-inline .input-group {
-    width: 100%;
-    border: 1px solid #55595c; }
-    header.site-header .search-col .form-inline .input-group .form-control {
-      border: none; }
-    header.site-header .search-col .form-inline .input-group .input-group-btn button {
-      border-left: 1px solid #55595c; }
-  header.site-header .navbar-collapse {
-    background: #2a4058; }
-  header.site-header .navbar-nav {
-    border-radius: 0;
-    padding: 0;
-    justify-content: center; }
-    header.site-header .navbar-nav .nav-item + .nav-item {
-      margin-left: 0; }
-    header.site-header .navbar-nav .nav-item a {
-      color: #eceeef;
-      font-family: "Trebuchet MS", Arial, sans-serif;
-      font-size: large;
-      padding: 0.75rem 1.5rem; }
-      header.site-header .navbar-nav .nav-item a:active, header.site-header .navbar-nav .nav-item a:focus, header.site-header .navbar-nav .nav-item a:hover {
-        text-decoration: none;
-        color: white;
-        background: #235285; }
+  header nav[class*="navbar-toggleable-"] a {
+    color: #333333; }
+    header nav[class*="navbar-toggleable-"] a > .logo-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: black;
+      text-shadow: -1px 1px #333333; }
+  header .search-films input {
+    background-clip: border-box; }
+  header .navbar-collapse .dropdown-menu {
+    background-color: #DD557B; }
+  header .navbar-brand img {
+    max-height: 100px; }
 
-.main-container {
-  background: white;
-  border-right: 1px solid #333333;
-  border-left: 1px solid #333333;
-  padding: 50px; }
-
-footer {
-  background: #818a91; }
-  footer a {
-    color: white;
-    font-size: small; }
-    footer a:active, footer a:focus, footer a:hover {
-      text-decoration: none;
-      color: #16a79d; }
+.container-fluid > div {
+  padding-top: 1rem; }
 
 /* TYPE */
 h1, h2, h3, h4, h5, h6 {
@@ -7624,6 +7589,13 @@ ul {
 .add-screening button[type=submit], .add-media button[type=submit] {
   width: 100%;
   margin: 0.5rem 0 0; }
+
+/* LOGIN */
+.login-form legend {
+  font-size: 2rem;
+  padding-bottom: 1rem; }
+.login-form button[type=submit] {
+  width: 100%; }
 
 /* RESPONSIVE MASONRY */
 @media only screen and (min-width: 576px) {

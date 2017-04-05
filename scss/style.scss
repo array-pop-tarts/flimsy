@@ -27,112 +27,51 @@ body {
 
 }
 
-header.site-header {
+header {
     background: $header-background;
 
-    .navbar {
-        display: block;
-        padding: 0;
-
-    }
     nav[class*="navbar-toggleable-"] {
         & > .container {
             display: block;
         }
-    }
 
-    .logo-col {
-        padding-top: $grid-gutter-width-base / 2;
-    }
-
-    .account-col {
-        padding: 6px 0 8px;
-        
         a {
             color: $gray-dark;
-        }
 
-        .navbar-toggler {
-            font-size: inherit;
-            padding: inherit;
+            & > .logo-name {
+                font-size: $font-size-h1;
+                font-weight: 700;
+                color: black;
+                text-shadow: -1px 1px $gray-dark;
+            }
         }
     }
 
-    .search-col {
-
-         .form-inline {
-            .input-group {
-                width: 100%;
-                border: 1px solid $gray;
-
-                .form-control {
-                    border: none;
-                }
-
-                .input-group-btn {
-                    button {
-                        border-left: 1px solid $gray;
-                    }
-                }
-            }
+    .search-films {
+        input {
+            background-clip: border-box;
         }
-
     }
 
     .navbar-collapse {
-        background: $brand-info-dark;
+
+        .dropdown-menu {
+            background-color: $pink;
+        }
+
     }
 
-    .navbar-nav {
-
-        border-radius: 0;
-        padding: 0;
-        justify-content: center;
-
-        .nav-item {
-
-            & + .nav-item {
-                margin-left: 0;
-            }
-
-            a {
-                color: $gray-lighter;
-                font-family: $font-family-fancy;
-                font-size: large;
-                padding: 0.75rem 1.5rem;
-
-                &:active,
-                &:focus,
-                &:hover {
-                    text-decoration: none;
-                    color: white;
-                    background: $brand-info;
-                }
-            }
+    .navbar-brand {
+        img {
+            max-height: 100px;
         }
     }
+
 }
 
-.main-container {
-    background: white;
-    border-right: 1px solid $gray-dark;
-    border-left: 1px solid $gray-dark;
-    padding: 50px;
-}
-
-footer {
-    background: $gray-light;
-
-    a {
-        color: white;
-        font-size: small;
-
-        &:active,
-        &:focus,
-        &:hover {
-            text-decoration: none;
-            color: $brand-success;
-        }
+.container-fluid {
+    & > div {
+        padding-top: 1rem;
     }
 }
 
@@ -329,6 +268,19 @@ ul {
     button[type=submit] {
         width: 100%;
         margin: 0.5rem 0 0;
+    }
+}
+
+/* LOGIN */
+
+.login-form {
+    legend {
+        font-size: $font-size-h2;
+        padding-bottom: 1rem;
+    }
+
+    button[type=submit] {
+        width: 100%;
     }
 }
 
