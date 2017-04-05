@@ -339,7 +339,10 @@ class ScreeningForm extends React.Component {
                     }
                 }, () => {
                     this.props.onCloseForm();
-                    this.props.refreshFilm(this.props.filmId);
+                    this.props.refreshFilm({
+                        idType: 'filmId',
+                        id: this.props.filmId
+                    });
                 })
             });
     }

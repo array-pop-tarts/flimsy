@@ -28,10 +28,11 @@ class App extends React.Component {
         this.searchImdbFilms = this.searchImdbFilms.bind(this);
 
         this.refreshFilm = this.refreshFilm.bind(this);
+        this.refreshMyFilm = this.refreshMyFilm.bind(this);
+        this.refreshImdbFilm = this.refreshImdbFilm.bind(this);
     }
 
     render() {
-        console.log(this.state.user);
         return (
             <div>
                 <Header user={this.state.user}
@@ -73,9 +74,13 @@ class App extends React.Component {
     searchMyFilms(text) {
         fetch(`/api/films?search=${ text }`)
             .then(res => res.json())
-            .then(json => this.setState({
-                films: json,
-                //loaded_films: true
+            .then(films => {
+                return films.map(film => {
+                    return Object.assign({}, film, { isMyFilm: true })
+                });
+            })
+            .then(films => this.setState({
+                films: films
             }));
     }
 
@@ -95,15 +100,16 @@ class App extends React.Component {
             .then(myFilms => {
                 let films = imdbFilms.Search.map(film => {
                     let isMyFilm = false;
-                    if (myFilms.length > 0 && myFilms.find(myFilm => myFilm.imdbId == film.imdbID))
+                    if (myFilms.length > 0 && myFilms.find(myFilm => myFilm.imdbId === film.imdbID))
                         isMyFilm = true;
-                    let poster = (film.Poster == "N/A" ? "" : film.Poster);
+                    let poster = (film.Poster === "N/A" ? "" : film.Poster);
                     return {
                         title: film.Title,
                         released: film.Year,
                         imdbId: film.imdbID,
                         poster: poster,
-                        isMyFilm: isMyFilm
+                        isMyFilm: isMyFilm,
+                        rating: null
                     };
                 });
 
@@ -113,7 +119,14 @@ class App extends React.Component {
             });
     }
 
-    refreshFilm(filmId) {
+    refreshFilm(refresh) {
+        if (refresh.idType === 'filmId')
+            this.refreshMyFilm(refresh.id);
+        else
+            this.refreshImdbFilm(refresh.id);
+    }
+
+    refreshMyFilm(filmId) {
         fetch(`/api/films/${filmId}`)
             .then(res => res.json())
             .then(film => {
@@ -125,6 +138,17 @@ class App extends React.Component {
                 });
                 this.setState({films: films});
             });
+    }
+
+    refreshImdbFilm(imdbId) {
+        let films = this.state.films.map(film => {
+            if (film.imdbId === imdbId)
+                return Object.assign({}, film, {isMyFilm: true});
+            else
+                return film;
+        });
+
+        this.setState({films: films});
     }
 
 /*

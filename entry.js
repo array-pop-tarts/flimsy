@@ -8,8 +8,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import './database';
-
 import App from './components/app';
 import Login from './components/sections/auth/login';
 import Films from './components/sections/films';

@@ -49,7 +49,7 @@ exports.create = function (req, res) {
     film.imdbId = req.body.imdbId;
     film.poster = req.body.poster;
     film.save()
-        .then(() => res.send(film))
+        .then((film) => res.send(film))
         .catch(err => res.send(err));
 };
 

@@ -24,6 +24,7 @@ class Search extends React.Component {
                 <div className="input-group">
                     <input className="form-control"
                            type="text"
+                           name="search_films"
                            placeholder="Search for films..."
                            value={ this.state.searchInput }
                            onChange={ (e) => this.updateSearchInput(e) }

@@ -18,7 +18,7 @@ class FilmInfo extends React.Component {
             <div className="d-flex justify-content-start">
                 <div>
                     <ReleasedYear year={ this.props.released } />
-                    <h3>{ this.props.title }</h3>
+                    <h3 className="mt-2">{ this.props.title }</h3>
                 </div>
                 <div className="is-my-film ml-auto">
                     { this.renderIsMyField() }
