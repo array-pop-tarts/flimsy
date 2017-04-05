@@ -40,8 +40,13 @@ class Header extends React.Component {
                                 </div>
                             </li>
                             <li className="nav-item dropdown">
-                                <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbarDropdownLists">
-                                    Barbara Goss
+                                <a href="#"
+                                   className="nav-link dropdown-toggle"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false"
+                                   id="navbarDropdownLists">
+                                    {}
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdownLists">
                                     <a href="#" className="dropdown-item">Account</a>

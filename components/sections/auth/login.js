@@ -4,6 +4,7 @@
  * Created: 2017-04-04
  */
 import React from 'react';
+import $ from 'jquery';
 
 class Login extends React.Component {
 
@@ -85,19 +86,41 @@ class Login extends React.Component {
     login(e) {
         e.preventDefault();
 
-        let url = (this.state.mode === 'login') ? '/api/login' : '/api/signup';
+        var url;
+        if (this.state.mode == 'login') {
+            url = "/api/login";
+        } else {
+            url = "/api/signup";
+        }
 
-        fetch(url, {
+        $.ajax({
             method: 'POST',
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                name: this.state.login.name,
-                email: this.state.login.email,
-                password: this.state.login.password
-            })
-        })
-            .then(user => this.props.onLogin(user))
-            .catch(err => this.setState({error: err}));
+            url: url,
+            data: JSON.stringify(this.state.login),
+            contentType: "application/json; charset=utf-8",
+            success: (user) => {
+                this.props.onLogin(user);
+            },
+            error: (err) => {
+                this.setState({ error: "We couldn't log you in with those credentials." });
+            }
+        });
+
+        /*
+                let url = (this.state.mode === 'login') ? '/api/login' : '/api/signup';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: { "Content-type": "application/json" },
+                    body: JSON.stringify({
+                        name: this.state.login.name,
+                        email: this.state.login.email,
+                        password: this.state.login.password
+                    })
+                })
+                    .then(user => this.props.onLogin(user))
+                    .catch(err => this.setState({error: err}));
+        */
     }
 
 }

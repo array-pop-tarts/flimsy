@@ -10,8 +10,6 @@ let session = require('express-session');
 
 module.exports = function (app) {
     passport.use(User.createStrategy());
-    passport.serializeUser(User.serializeUser());
-    passport.deserializeUser(User.deserializeUser());
 
     app.use(session({
         secret: process.env.COOKIE_SECRET,
@@ -20,6 +18,13 @@ module.exports = function (app) {
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+
+    passport.serializeUser(User.serializeUser());
+    passport.deserializeUser(User.deserializeUser());
+
+    app.post('/api/login', passport.authenticate('local'), function (req, res) {
+        res.send(req.user);
+    });
 
     app.post('/api/signup', function (req, res) {
         let user = new User();
@@ -32,15 +37,17 @@ module.exports = function (app) {
         })
     });
 
-    app.post('/api/login', passport.authenticate('local'), function (req, res) {
-        res.send(req.user);
-    });
-
     app.get('/api/logout', function (req, res) {
+       req.logout();
        res.sendStatus(200);
     });
 
     app.get('/api/me', function (req, res) {
-        res.send(req.user);
+        if (req.user) {
+            res.send(req.user);
+        } else {
+            res.status(401);
+            res.send("Unauthorized");
+        }
     });
 };

@@ -2,6 +2,7 @@
  * Author: Barbara Goss
  * Created: 2017-03-12
  */
+
 let express = require('express');
 let app = express();
 
@@ -9,10 +10,6 @@ require('dotenv').config();
 
 let webpack = require('webpack');
 let webpackMiddleware = require('webpack-dev-middleware');
-
-app.use(webpackMiddleware(webpack(require('./webpack.config'))));
-
-app.use(express.static('public'));
 
 let mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_SERVER);
@@ -22,6 +19,10 @@ app.use(bodyParser.json());
 
 let setUpAuth = require('./auth');
 setUpAuth(app);
+
+app.use(webpackMiddleware(webpack(require('./webpack.config'))));
+
+app.use(express.static('public'));
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/films', require('./api/films'));

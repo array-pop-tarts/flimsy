@@ -4,6 +4,7 @@
  * Created: 2017-02-02
  */
 import React from 'react';
+import $ from 'jquery';
 
 import Header from './layout/header';
 import Search from './layout/search';
@@ -116,16 +117,36 @@ class App extends React.Component {
             });
     }
 
+/*
     componentDidMount() {
         fetch('/api/me')
+            .then(res => {
+                console.log(res);
+                if (res.success) {
+                    return res.json()
+                } else {
+                    throw new Error("Not logged in")
+                }
+            })
             .then(user => {
+                console.log("mount", user);
                 this.setState({
                     userIsLoaded: true
                 });
                 if (user)
                     this.userLoggedIn(user);
             });
+
     }
+*/
+    componentDidMount() {
+        $.getJSON('/api/me', (user) => {
+            if (user !== null) {
+                this.userLoggedIn(user);
+            }
+        })
+    }
+
 }
 
 export default App;
