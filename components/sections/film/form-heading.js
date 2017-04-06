@@ -8,7 +8,7 @@ import React from 'react';
 class FormHeading extends React.Component {
     render() {
         return (
-            <div className="row">
+            <div className="row form-heading">
                 <div className="col-18">
                     <h3>{ this.props.formMode + " " + this.props.formType }</h3>
                 </div>

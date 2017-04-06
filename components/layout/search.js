@@ -64,7 +64,7 @@ class Search extends React.Component {
         this.props.handleSearch({
             text: this.state.searchInput,
             searchMyFilmsOnly: this.state.searchMyFilmsOnly
-        });
+        }, this.setState({searchInput: ""}));
     }
 
 }

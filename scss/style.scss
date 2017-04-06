@@ -51,6 +51,12 @@ header {
         input {
             background-clip: border-box;
         }
+        .input-group-addon {
+            background: $pink;
+            color: $gray-lightest;
+            border-right: none;
+            border-left: none;
+        }
     }
 
     .navbar-collapse {
@@ -231,6 +237,23 @@ ul {
 
 .film-media {
   background-color: $purple;
+
+    .list-inline-item {
+        border-color: $gray-lightest;
+        color: $gray-lightest;
+
+        .button-transparent {
+            color: $gray-lightest;
+        }
+    }
+
+    .form-heading {
+        color: $pink;
+
+        .button-transparent {
+            color: $pink;
+        }
+    }
 }
 
 .available-media {
@@ -271,9 +294,18 @@ ul {
     }
 }
 
+.main-message {
+    text-align: center;
+    font-size: $font-size-h1;
+    font-family: $font-family-fancy;
+    font-style: italic;
+    color: $pink;
+}
+
 /* LOGIN */
 
 .login-form {
+    color: $pink;
     legend {
         font-size: $font-size-h2;
         padding-bottom: 1rem;
@@ -281,6 +313,10 @@ ul {
 
     button[type=submit] {
         width: 100%;
+    }
+
+    .button-transparent {
+        color: $pink;
     }
 }
 

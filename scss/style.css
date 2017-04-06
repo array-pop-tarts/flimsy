@@ -7425,7 +7425,7 @@ html {
   font-size: 14px; }
 
 body {
-  background: #1C6A81; }
+  background: #24242D; }
 
 @media (min-width: 576px) {
   html {
@@ -7436,7 +7436,7 @@ body {
     padding-left: 1rem;
     padding-right: 1rem; } }
 header {
-  background: #80628b; }
+  background: #f0ad4e; }
   header nav[class*="navbar-toggleable-"] > .container {
     display: block; }
   header nav[class*="navbar-toggleable-"] a {
@@ -7448,6 +7448,11 @@ header {
       text-shadow: -1px 1px #333333; }
   header .search-films input {
     background-clip: border-box; }
+  header .search-films .input-group-addon {
+    background: #DD557B;
+    color: #f7f7f9;
+    border-right: none;
+    border-left: none; }
   header .navbar-collapse .dropdown-menu {
     background-color: #DD557B; }
   header .navbar-brand img {
@@ -7562,7 +7567,16 @@ ul {
       margin: 0; }
 
 .film-media {
-  background-color: #80628b; }
+  background-color: #4B47A8; }
+  .film-media .list-inline-item {
+    border-color: #f7f7f9;
+    color: #f7f7f9; }
+    .film-media .list-inline-item .button-transparent {
+      color: #f7f7f9; }
+  .film-media .form-heading {
+    color: #DD557B; }
+    .film-media .form-heading .button-transparent {
+      color: #DD557B; }
 
 .available-media {
   display: flex;
@@ -7590,12 +7604,23 @@ ul {
   width: 100%;
   margin: 0.5rem 0 0; }
 
+.main-message {
+  text-align: center;
+  font-size: 2.5rem;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-style: italic;
+  color: #DD557B; }
+
 /* LOGIN */
-.login-form legend {
-  font-size: 2rem;
-  padding-bottom: 1rem; }
-.login-form button[type=submit] {
-  width: 100%; }
+.login-form {
+  color: #DD557B; }
+  .login-form legend {
+    font-size: 2rem;
+    padding-bottom: 1rem; }
+  .login-form button[type=submit] {
+    width: 100%; }
+  .login-form .button-transparent {
+    color: #DD557B; }
 
 /* RESPONSIVE MASONRY */
 @media only screen and (min-width: 576px) {

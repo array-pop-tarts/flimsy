@@ -42,9 +42,13 @@ class App extends React.Component {
                 <div className="container-fluid">
                 {
                     (this.state.user !== null) ?
-                        <Films films={ this.state.films }
-                               refreshFilm={ this.refreshFilm }
-                        /> :
+                        this.state.films.length ?
+                            <Films films={ this.state.films }
+                                   refreshFilm={ this.refreshFilm }
+                            /> :
+                            <div className="main-message my-md-5">
+                                Didn't find any movies...
+                            </div> :
                         <Login onLogin={ this.userLoggedIn } />
                 }
                 </div>
