@@ -60,7 +60,10 @@ class ScreeningForm extends React.Component {
     render() {
         return (
             <form className="add-screening" onSubmit={ (e) => this.onSaveScreening(e)}>
-                <FormHeading formType="Screening" onCloseForm={ this.props.onCloseForm }/>
+                <FormHeading formType="Screening"
+                             formMode={ this.state.screening.hasOwnProperty('_id') ? 'Edit' : 'Add New' }
+                             onCloseForm={ this.props.onCloseForm }
+                />
                 <div className="row">
                     <div className="col">
                         <DatePicker selected={ this.state.screening.date }

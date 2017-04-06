@@ -10,7 +10,7 @@ class FormHeading extends React.Component {
         return (
             <div className="row">
                 <div className="col-18">
-                    <h3>Add New { this.props.formType }</h3>
+                    <h3>{ this.props.formMode + " " + this.props.formType }</h3>
                 </div>
                 <div className="col-6 screening-actions">
                     <button type="button"

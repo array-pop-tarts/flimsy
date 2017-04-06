@@ -31,7 +31,10 @@ class MediaForm extends React.Component {
 
         return (
             <form className="add-media" onSubmit={ (e) => this.onSaveMedia(e) }>
-                <FormHeading formType="Media" onCloseForm={ this.props.onCloseForm }/>
+                <FormHeading formType="Media"
+                             formMode={ this.state.medium.hasOwnProperty('_id') ? 'Edit' : 'Add New' }
+                             onCloseForm={ this.props.onCloseForm }
+                />
                 <div className="row">
                     <div className="col">
                         <DatePicker selected={ this.state.medium.acquired }
